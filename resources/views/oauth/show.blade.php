@@ -10,7 +10,11 @@
                 @csrf
 
                 <div class="form-group">
-                    {{ $client->user->name }} owns this application.
+                    @if($client->user)
+                        {{ $client->user->name }} owns this application.
+                    @else
+                         System-created application.
+                    @endif
                 </div>
 
                 <hr />
