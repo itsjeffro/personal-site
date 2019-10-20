@@ -25,11 +25,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $userId = Auth::id();
-        $clients = OauthClient::where(['user_id' => $userId])->get();
+        $user = Auth::user();
+        $clients = OauthClient::where(['user_id' => $user->id]);
+        
+        if ($user->hasRole('admin')) {
+            $clients->orWhereNull('user_id');
+        }
 
         return view('home')->with([
-            'clients' => $clients,
+            'clients' => $clients->get(),
         ]);
     }
 }
