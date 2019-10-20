@@ -23,7 +23,7 @@ php artisan key:gen
 Before running the project migrations, ensure that you have set you database credentials. Then you may run the following command.
 
 ```
-php artisan migrate
+php artisan migrate --seed
 ```
 
 ### Assets
