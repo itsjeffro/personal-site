@@ -81,6 +81,8 @@ class OauthController extends Controller
      */
     public function show(OauthClient $oauthClient)
     {
+        $this->authorize('view', $oauthClient);
+
         return view('oauth.show')->with(['client' => $oauthClient]);
     }
 
@@ -93,6 +95,8 @@ class OauthController extends Controller
      */
     public function update(Request $request, OauthClient $oauthClient)
     {
+        $this->authorize('view', $oauthClient);
+
         $this->validation->make($request->all(), [
             'name' => 'required|max:255',
             'redirect' => ['required', $this->redirectRule],
