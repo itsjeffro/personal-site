@@ -25,7 +25,7 @@
 
                 <div class="form-group">
                     <label class="label-control" for="role">Role</label>
-                    <input type="text" readonly class="form-control-plaintext" id="role" value="--">
+                    <input type="text" readonly class="form-control-plaintext" id="role" value="{{ $roles }}">
                 </div>
 
                 <button class="btn btn-primary" type="submit" name="submit">Update profile</button>
