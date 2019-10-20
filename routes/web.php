@@ -20,3 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/application/oauth/create', 'OauthController@create')->name('oauth.create');
+Route::post('/application/oauth', 'OauthController@store')->name('oauth.store');
+Route::get('/application/oauth/{oauth_client}', 'OauthController@show')->name('oauth.show');
+Route::put('/application/oauth/{oauth_client}', 'OauthController@update')->name('oauth.update');
