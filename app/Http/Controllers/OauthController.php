@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Http\Rules\RedirectRule;
+use Illuminate\Http\RedirectResponse;
 
 class OauthController extends Controller
 {
@@ -51,7 +52,7 @@ class OauthController extends Controller
      * Create record.
      *
      * @param Request $request
-     * @return void
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -92,7 +93,7 @@ class OauthController extends Controller
      *
      * @param Request $request
      * @param OauthClient $oauthClient
-     * @return void
+     * @return RedirectResponse
      */
     public function update(Request $request, OauthClient $oauthClient)
     {
@@ -121,10 +122,14 @@ class OauthController extends Controller
      *
      * @param Request $request
      * @param OauthClient $oauthClient
-     * @return void
+     * @return RedirectResponse
      */
     public function destroy(Request $request, OauthClient $oauthClient)
     {
+        $this->authorize('delete', $oauthClient);
+
+        $oauthClient->delete();
+
         return redirect()->route('home');
     }
 }
