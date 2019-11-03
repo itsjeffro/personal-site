@@ -25,3 +25,4 @@ Route::get('/applications/create', 'OauthController@create')->name('oauth.create
 Route::post('/applications', 'OauthController@store')->name('oauth.store');
 Route::get('/applications/{oauth_client}', 'OauthController@show')->name('oauth.show');
 Route::put('/applications/{oauth_client}', 'OauthController@update')->name('oauth.update');
+Route::delete('/applications/{oauth_client}', 'OauthController@destroy')->name('oauth.delete');
