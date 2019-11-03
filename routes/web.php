@@ -28,3 +28,5 @@ Route::put('/applications/{oauth_client}', 'Backend\OauthController@update')->na
 Route::delete('/applications/{oauth_client}', 'Backend\OauthController@destroy')->name('oauth.delete');
 
 Route::get('/users', 'Backend\UsersController@index')->name('users.list');
+
+Route::get('/roles', 'Backend\RolesController@index')->name('roles.list');
