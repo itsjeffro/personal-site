@@ -1,18 +1,33 @@
 <?php
 
 use Illuminate\Http\Request;
+use Lcobucci\JWT\Parser;
+use Laravel\Passport\Token;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| External (public) API Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:api'], 'prefix' => 'v1'], function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Internal API Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('client')->group(function () {
+    Route::get('/scopes', function (Request $request) {
+        $bearerToken = $request->bearerToken();
+        $tokenId = (new Parser())->parse($bearerToken)->getHeader('jti');
+        $client = Token::find($tokenId);
+
+        return $client->scopes;
+    });
 });
