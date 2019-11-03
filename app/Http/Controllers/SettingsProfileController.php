@@ -27,7 +27,7 @@ class SettingsProfileController extends Controller
     {
         $user = Auth::user();
 
-        return view('settings.profile-show')->with([
+        return view('backend.settings.profile-show')->with([
             'user' => $user,
             'roles' => $user->getRoleNames()->implode(', '),
         ]);

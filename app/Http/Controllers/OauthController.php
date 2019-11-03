@@ -45,7 +45,7 @@ class OauthController extends Controller
      */
     public function create()
     {
-        return view('oauth.create');
+        return view('backend.oauth.create');
     }
 
     /**
@@ -85,7 +85,7 @@ class OauthController extends Controller
     {
         $this->authorize('view', $oauthClient);
 
-        return view('oauth.show')->with(['client' => $oauthClient]);
+        return view('backend.oauth.show')->with(['client' => $oauthClient]);
     }
 
     /**
