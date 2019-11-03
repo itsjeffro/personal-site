@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Itsjeffro\OauthClient;
+use App\Itsjeffro\OauthTypes;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Laravel\Passport\ClientRepository;
@@ -59,8 +60,8 @@ class OauthController extends Controller
             'redirect' => ['required', $this->redirectRule],
         ])->validate();
 
-        $isPersonalAccessGrantType = (int) $request->input('grant_type') === OauthClient::PERSONAL_ACCESS_GRANT_TYPE;
-        $isPasswordGrantType = (int) $request->input('grant_type') === OauthClient::PASSWORD_GRANT_TYPE;
+        $isPersonalAccessGrantType = (int) $request->input('grant_type') === OauthTypes::PERSONAL_ACCESS_GRANT_TYPE;
+        $isPasswordGrantType = (int) $request->input('grant_type') === OauthTypes::PASSWORD_GRANT_TYPE;
 
         $this->clients->create(
             $request->user()->getKey(), 
@@ -102,8 +103,8 @@ class OauthController extends Controller
             'redirect' => ['required', $this->redirectRule],
         ])->validate();
 
-        $isPersonalAccessGrantType = (int) $request->input('grant_type') === OauthClient::PERSONAL_ACCESS_GRANT_TYPE;
-        $isPasswordGrantType = (int) $request->input('grant_type') === OauthClient::PASSWORD_GRANT_TYPE;
+        $isPersonalAccessGrantType = (int) $request->input('grant_type') === OauthTypes::PERSONAL_ACCESS_GRANT_TYPE;
+        $isPasswordGrantType = (int) $request->input('grant_type') === OauthTypes::PASSWORD_GRANT_TYPE;
 
         $oauthClient->update([
             'name' => $request->input('name'),
@@ -112,6 +113,18 @@ class OauthController extends Controller
             'password_client' => $isPasswordGrantType,
         ]);
 
+        return redirect()->route('home');
+    }
+
+    /**
+     * Remove record.
+     *
+     * @param Request $request
+     * @param OauthClient $oauthClient
+     * @return void
+     */
+    public function destroy(Request $request, OauthClient $oauthClient)
+    {
         return redirect()->route('home');
     }
 }
