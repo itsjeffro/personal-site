@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('backend.layouts.app')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-3">
-            @include('settings.partials.submenu')
+            @include('backend.settings.partials.submenu')
         </div>
         <div class="col-md-9">
             <h2>Public profile</h2>
@@ -28,7 +28,7 @@
                     <input type="text" readonly class="form-control-plaintext" id="role" value="{{ $roles }}">
                 </div>
 
-                <button class="btn btn-primary" type="submit" name="submit">Update profile</button>
+                <button class="btn btn-sm btn-primary" type="submit" name="submit">Update profile</button>
             </form>
         </div>
     </div>
