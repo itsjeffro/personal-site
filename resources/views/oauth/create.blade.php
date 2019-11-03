@@ -44,9 +44,15 @@
                             Personal Token
                         </label>
                     </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="grant_type" id="clientCredentialsGrantType" value="3">
+                        <label class="form-check-label" for="clientCredentialsGrantType">
+                            Client Credentials
+                        </label>
+                    </div>
                 </div>
 
-                <button class="btn btn-primary" type="submit" name="submit">Register application</button>
+                <button class="btn btn-sm btn-primary" type="submit" name="submit">Register application</button>
             </form>
         </div>
     </div>
