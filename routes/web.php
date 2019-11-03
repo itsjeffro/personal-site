@@ -19,10 +19,10 @@ Route::get('/', function () {
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/settings/profile', 'SettingsProfileController@show')->name('settings.profile.show');
+Route::get('/settings/profile', 'Backend\SettingsProfileController@show')->name('settings.profile.show');
 
-Route::get('/applications/create', 'OauthController@create')->name('oauth.create');
-Route::post('/applications', 'OauthController@store')->name('oauth.store');
-Route::get('/applications/{oauth_client}', 'OauthController@show')->name('oauth.show');
-Route::put('/applications/{oauth_client}', 'OauthController@update')->name('oauth.update');
-Route::delete('/applications/{oauth_client}', 'OauthController@destroy')->name('oauth.delete');
+Route::get('/applications/create', 'Backend\OauthController@create')->name('oauth.create');
+Route::post('/applications', 'Backend\OauthController@store')->name('oauth.store');
+Route::get('/applications/{oauth_client}', 'Backend\OauthController@show')->name('oauth.show');
+Route::put('/applications/{oauth_client}', 'Backend\OauthController@update')->name('oauth.update');
+Route::delete('/applications/{oauth_client}', 'Backend\OauthController@destroy')->name('oauth.delete');
