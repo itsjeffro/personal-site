@@ -10,7 +10,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th width="20%">Name</th>
+                                <th width="20%">Role name</th>
                             </tr>
                         </thead>
 
@@ -18,7 +18,7 @@
                             @foreach($roles as $role)
                             <tr>
                                 <td width="20%">
-                                    {{ $role->name }}
+                                    <a href="{{ route('roles.show', ['role' => $role->id]) }}" title="View role">{{ $role->name }}</a>
                                 </td>
                             </tr>
                             @endforeach
