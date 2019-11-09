@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
@@ -31,6 +32,22 @@ class RolesController extends Controller
     {
         return view('backend.roles.list')->with([
             'roles' => $this->role->paginate(),
+        ]);
+    }
+
+    /**
+     * Show record.
+     *
+     * @param Role $role
+     * @return void
+     */
+    public function show(Role $role)
+    {
+        $permissions = Permission::orderBy('name', 'desc')->get();
+
+        return view('backend.roles.show')->with([
+            'role' => $role,
+            'permissions' => $permissions,
         ]);
     }
 }

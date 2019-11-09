@@ -27,4 +27,5 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'role:admin'], function () {
     Route::get('/users', 'Backend\UsersController@index')->name('users.list');
     Route::get('/roles', 'Backend\RolesController@index')->name('roles.list');
+    Route::get('/roles/{role}', 'Backend\RolesController@show')->name('roles.show');
 });
