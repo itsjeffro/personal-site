@@ -7,6 +7,7 @@ use App\Itsjeffro\UserRole;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Connection as DB;
+use Illuminate\Http\Request;
 
 class RolesController extends Controller
 {
@@ -59,5 +60,17 @@ class RolesController extends Controller
             'role' => $role,
             'permissions' => $permissions,
         ]);
+    }
+
+    /**
+     * Update record.
+     *
+     * @param Request $request
+     * @param Role $role
+     * @return void
+     */
+    public function update(Request $request, Role $role)
+    {
+        //
     }
 }
