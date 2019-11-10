@@ -4,6 +4,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-12">
+            <div class="form-group">
+                <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">Add user</a>
+            </div>
+
             <div class="card">
                 <div class="card-header">Users</div>
                 <div class="table-responsive">
@@ -22,7 +26,7 @@
                             @foreach($users as $user)
                             <tr>
                                 <td width="20%">
-                                    {{ $user->name }}
+                                    <a href="{{ route('users.show', ['user' => $user->id]) }}" title="View {{ $user->name }}">{{ $user->name }}</a>
                                 </td>
                                 <td width="20%">
                                     {{ $user->email }}
