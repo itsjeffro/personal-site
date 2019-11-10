@@ -72,7 +72,7 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $permissions = array_values($request->input('permission'));
+        $permissions = array_values($request->input('permission', []));
 
         $role->syncPermissions($permissions);
 
