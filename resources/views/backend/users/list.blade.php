@@ -3,7 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-sm-12">
+        <div class="col-md-3">
+            @include('backend.partials.user-role-submenu')
+        </div>
+
+        <div class="col-md-9">
             <div class="form-group">
                 <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">Add user</a>
             </div>
@@ -14,31 +18,19 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th width="20%">Name</th>
-                                <th width="20%">Email</th>
-                                <th width="20%">Roles</th>
-                                <th>Created at</th>
-                                <th>Updated at</th>
+                                <th width="33%">Email</th>
+                                <th>Roles</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             @foreach($users as $user)
                             <tr>
-                                <td width="20%">
-                                    <a href="{{ route('users.show', ['user' => $user->id]) }}" title="View {{ $user->name }}">{{ $user->name }}</a>
+                                <td width="33%">
+                                    <a href="{{ route('users.show', ['user' => $user->id]) }}" title="View {{ $user->email }}">{{ $user->email }}</a>
                                 </td>
-                                <td width="20%">
-                                    {{ $user->email }}
-                                </td>
-                                <td width="20%">
+                                <td>
                                     {{ $user->getRoleNames()->implode(', ') }}
-                                </td>
-                                <td>
-                                    {{ $user->created_at }}
-                                </td>
-                                <td>
-                                    {{ $user->updated_at }}
                                 </td>
                             </tr>
                             @endforeach
