@@ -26,6 +26,11 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'role:admin'], function () {
     Route::get('/users', 'Backend\UsersController@index')->name('users.list');
+    Route::get('/users/create', 'Backend\UsersController@create')->name('users.create');
+    Route::get('/users/{user}', 'Backend\UsersController@show')->name('users.show');
+    Route::put('/users/{user}', 'Backend\UsersController@update')->name('users.update');
+    Route::post('/users', 'Backend\UsersController@store')->name('users.store');
+
     Route::get('/roles', 'Backend\RolesController@index')->name('roles.list');
     Route::get('/roles/{role}', 'Backend\RolesController@show')->name('roles.show');
 });
