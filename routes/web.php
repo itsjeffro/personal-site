@@ -33,4 +33,5 @@ Route::group(['middleware' => 'role:admin'], function () {
 
     Route::get('/roles', 'Backend\RolesController@index')->name('roles.list');
     Route::get('/roles/{role}', 'Backend\RolesController@show')->name('roles.show');
+    Route::put('/roles/{role}', 'Backend\RolesController@update')->name('roles.update');
 });
