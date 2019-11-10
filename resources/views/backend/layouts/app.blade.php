@@ -37,10 +37,7 @@
                             <a class="nav-link" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.list') }}">Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('roles.list') }}">Roles</a>
+                            <a class="nav-link" href="{{ route('users.list') }}">Users & Roles</a>
                         </li>
                     </ul>
 
