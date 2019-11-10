@@ -59,6 +59,7 @@ class RolesController extends Controller
         return view('backend.roles.show')->with([
             'role' => $role,
             'permissions' => $permissions,
+            'rolePermissions' => $role->permissions->pluck('name')->toArray(),
         ]);
     }
 
@@ -71,6 +72,10 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //
+        $permissions = array_values($request->input('permission'));
+
+        $role->syncPermissions($permissions);
+
+        return redirect()->route('roles.show', ['role' => $role->id]);
     }
 }
