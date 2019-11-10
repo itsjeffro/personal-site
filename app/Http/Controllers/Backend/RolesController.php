@@ -20,6 +20,7 @@ class RolesController extends Controller
      * Create a new controller instance.
      *
      * @param Role $role
+     * @param DB $db
      * @return void
      */
     public function __construct(Role $role, DB $db)
