@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Itsjeffro\UserRole;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Database\Connection as DB;
 
 class RolesController extends Controller
 {
     /** @var Role */
     private $role;
+
+    /** @var DB */
+    private $db;
 
     /**
      * Create a new controller instance.
@@ -17,10 +22,10 @@ class RolesController extends Controller
      * @param Role $role
      * @return void
      */
-    public function __construct(Role $role)
+    public function __construct(Role $role, DB $db)
     {
-        $this->middleware('auth');
         $this->role = $role;
+        $this->db = $db;
     }
 
     /**
@@ -30,8 +35,12 @@ class RolesController extends Controller
      */
     public function index()
     {
+        $userRole = new UserRole($this->db);
+        $userCountPerRole = $userRole->countPerRole();
+
         return view('backend.roles.list')->with([
             'roles' => $this->role->paginate(),
+            'userCountPerRole' => $userCountPerRole,
         ]);
     }
 
