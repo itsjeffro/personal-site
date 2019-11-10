@@ -28,7 +28,13 @@
                                 @foreach($permissions as $permission)
                                     <tr>
                                         <td width="5%">
-                                            <input id="{{ $permission->id }}" type="checkbox" name="permission[{{ $permission->id }}]">
+                                            <input
+                                                id="{{ $permission->id }}"
+                                                type="checkbox"
+                                                name="permission[{{ $permission->id }}]"
+                                                value="{{ $permission->id }}"
+                                                {{ in_array($permission->name, $rolePermissions) ? ' checked="checked"' : '' }}
+                                            >
                                         </td>
                                         <td>
                                             {{ $permission->name }}
