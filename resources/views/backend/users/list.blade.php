@@ -3,16 +3,18 @@
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="heading">
+        <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right">Add user</a>
+        <h2>Users &amp; Roles</h2>
+      </div>
+    </div>
+
     <div class="col-md-3">
         @include('backend.partials.user-role-submenu')
     </div>
 
     <div class="col-md-9">
-      <div class="heading">
-        <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right">Add user</a>
-        <h2>Users</h2>
-      </div>
-
       <div class="table-responsive">
         <table class="table table-blocks">
           <tbody>
