@@ -39,6 +39,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.list') }}">Users & Roles</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('applications.list') }}">Applications</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
