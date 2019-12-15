@@ -17,17 +17,28 @@
     <div class="col-md-9">
       <div class="table-responsive">
         <table class="table table-blocks">
+        <thead>
+            <tr>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Created at</th>
+              <th></th>
+            </tr>
+          </thead>
           <tbody>
             @foreach($users as $user)
             <tr>
               <td width="33%">
-                  <a href="{{ route('users.show', ['user' => $user->id]) }}" title="View {{ $user->email }}">{{ $user->email }}</a>
+                <a href="{{ route('users.show', ['user' => $user->id]) }}" title="View {{ $user->email }}">{{ $user->email }}</a>
               </td>
               <td>
-                  Role: {{ $user->getRoleNames()->implode(', ') }}
+                {{ $user->getRoleNames()->implode(', ') }}
               </td>
               <td>
-                  Created: {{ $user->created_at->format('Y-m-d H:i:s') }}
+                {{ $user->created_at->format('d, F Y - h:i A') }}
+              </td>
+              <td class="text-right">
+                <a href="{{ route('users.show', ['user' => $user->id]) }}" title="View {{ $user->email }}">View</a>
               </td>
             </tr>
             @endforeach

@@ -15,21 +15,32 @@
 
       <div class="table-responsive">
         <table class="table table-blocks">
+        <thead>
+            <tr>
+              <th>Role</th>
+              <th>User count</th>
+              <th>Created at</th>
+              <th></th>
+            </tr>
+          </thead>
           <tbody>
             @foreach($roles as $role)
             <tr>
-              <td width="20%">
+              <td>
                 <a href="{{ route('roles.show', ['role' => $role->id]) }}" title="View role">{{ $role->name }}</a>
               </td>
-              <td width="40%">
+              <td>
                 @if(isset($userCountPerRole[$role->id]))
-                  Users: {{ $userCountPerRole[$role->id]->total_users }}
+                  {{ $userCountPerRole[$role->id]->total_users }}
                 @else
-                  Users: 0
+                 0
                 @endif
               </td>
-              <td width="40%">
-                Created: {{ $role->created_at }}
+              <td>
+                {{ $role->created_at->format('d, F Y - h:i A') }}
+              </td>
+              <td class="text-right">
+                <a href="{{ route('roles.show', ['role' => $role->id]) }}" title="View role">View</a>
               </td>
             </tr>
             @endforeach

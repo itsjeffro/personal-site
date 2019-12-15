@@ -19,6 +19,13 @@
 
       <div class="table-responsive">
         <table class="table table-blocks">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Client ID</th>
+              <th>Grant type</th>
+            </tr>
+          </thead>
           <tbody>
             @foreach($clients as $client)
             <tr>
