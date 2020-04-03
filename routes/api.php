@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Lcobucci\JWT\Parser;
 use Laravel\Passport\Token;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -10,10 +11,17 @@ use Laravel\Passport\Token;
 |--------------------------------------------------------------------------
 */
 
-Route::group(['middleware' => ['auth:api'], 'prefix' => 'v1'], function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+Route::group(['prefix' => 'v1'], function () {
+    Route::group(['middleware' => ['auth:api']], function () {
+        Route::get('/user', function (Request $request) {
+            return $request->user();
+        });
     });
+
+    Route::get('/players', 'Api\PlayerController@index');
+    Route::get('/players/{player}', 'Api\PlayerController@show');
+
+    Route::get('/admins', 'Api\AdminController@index');
 });
 
 /*
