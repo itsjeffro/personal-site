@@ -109,6 +109,6 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        return redirect()->route('backend.users.show');
+        return redirect()->route('users.show', ['id' => $user->id]);
     }
 }
