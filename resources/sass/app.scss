@@ -1,24 +1,8 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
 @import '~bootstrap/scss/bootstrap';
-@import './components/_dropdown';
-@import './components/_form';
-@import './components/_navbar';
-@import './components/_table';
-
-body {
-  font-size: 14px;
-  background: #fcfdfd;
-}
-
-.heading {
-  h2 {
-    font-size: 16px;
-    font-weight: 300;
-    padding: 6px 0;
-  }
-}
-
-.container {
-  @media(min-width: 1200px) {
-    max-width: 1366px;
-  }
-}
