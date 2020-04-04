@@ -14,10 +14,10 @@ Route::group(['middleware' => 'auth.jwt'], function () {
 |--------------------------------------------------------------------------
 */
 
-Route::group(['prefix' => 'v1'], function () {
+Route::group(['prefix' => 'v1', 'namespace' => 'Api\External'], function () {
     // Players
-    Route::get('/players', 'Api\PlayerController@index');
-    Route::get('/players/{player}', 'Api\PlayerController@show');
+    Route::get('/players', 'PlayerController@index');
+    Route::get('/players/{player}', 'PlayerController@show');
 });
 
 /*
@@ -26,12 +26,20 @@ Route::group(['prefix' => 'v1'], function () {
 |-----------------------------------------------------------~---------------
 */
 
-Route::group(['middleware' => 'auth.jwt', 'prefix' => 'internal'], function () {
+Route::group(['middleware' => 'auth.jwt', 'prefix' => 'internal', 'namespace' => 'Api\Internal'], function () {
     // Admins
-    Route::get('/admins', 'Api\AdminController@index');
-    Route::get('/admins/{auth}', 'Api\AdminController@show');
-    Route::put('/admins/{auth}', 'Api\AdminController@update');
+    Route::get('/admins', 'AdminController@index');
+    Route::get('/admins/{auth}', 'AdminController@show');
+    Route::put('/admins/{auth}', 'AdminController@update');
 
     // Admin permissions
-    Route::get('/admin-permissions', 'Api\AdminPermissionController@index');
+    Route::get('/admin-permissions', 'AdminPermissionController@index');
+
+    // Users
+    Route::get('/users', 'UserController@index');
+    Route::get('/users/{user}', 'UserController@show');
+
+    // Players
+    Route::get('/players', 'PlayerController@index');
+    Route::get('/players/{player}', 'PlayerController@show');
 });
