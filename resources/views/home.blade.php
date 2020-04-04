@@ -1,21 +1,15 @@
-@extends('backend.layouts.app')
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            @if (session('status'))
-            <div classs="form-group">
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-            </div>
-            @endif
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-            <div class="heading">
-                <h2>Dashboard</h2>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
