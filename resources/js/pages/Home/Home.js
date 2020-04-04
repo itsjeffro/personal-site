@@ -7,17 +7,31 @@ class Home extends React.Component {
     super(props);
     
     this.state = {
+      perPage: 50,
+      currentPage: 1,
       players: {
         data: [],
         total: 0,
       },
     };
+
+    this.onPageClick = this.onPageClick.bind(this);
   }
 
+  /**
+   * Load results once component has mounted.
+   */
   componentDidMount() {
+    this.loadResults(1);
+  }
+
+  /**
+   * Load results.
+   */
+  loadResults(page) {
     axios.request({
       method: 'GET',
-      url: '/api/v1/players?per_page=100',
+      url: '/api/v1/players?per_page=' + this.state.perPage + '&page=' + page,
       responseType: 'json'
     })
     .then(response => {
@@ -26,11 +40,30 @@ class Home extends React.Component {
         total: response.data.meta.total
       };
 
-      this.setState({ players: players });
+      this.setState({ players: players, currentPage: response.data.meta.current_page });
     });
   }
 
+  /**
+   * Update page results on page click.
+   */
+  onPageClick(event, page) {
+    event.preventDefault();
+
+    window.scrollTo(0, 0);
+
+    this.loadResults(page);
+  }
+
+  /**
+   * Render DOM.
+   */
   render() {
+    const { 
+      players, 
+      perPage,
+    } = this.state;
+
     return (
       <>
         <nav className="navbar navbar-dark bg-primary">
@@ -46,21 +79,28 @@ class Home extends React.Component {
           <div className="content">
             <div className="row justify-content-center">
               <div className="col-md-8">
-                <p>The server hosts Counter-Strike 1.6 on Steam. Server: <span className="font-weight-bold">3.24.138.157:27015</span></p>
+                <p>The server hosts Counter-Strike 1.6 on Steam. Server: <span className="font-weight-bold">13.55.196.137:27015</span></p>
 
                 <h2>Players</h2>
 
                 <div className="row">
                   <div className="col-md-4">
                     <p>
-                      Total that have joined: { this.state.players.total }
+                      Total that have joined: { players.total }
                     </p>
                   </div>
                 </div>
 
-                <PlayersTable players={this.state.players.data} />
+                <PlayersTable 
+                  players={ players.data }
+                />
 
-                <Pagination total={this.state.players.total} />
+                <Pagination
+                  total={ players.total }
+                  perPage={ perPage }
+                  currentPage={ 1 }
+                  handlePageClick={ this.onPageClick }
+                />
               </div>
             </div>
           </div>
