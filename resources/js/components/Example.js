@@ -52,10 +52,10 @@ class App extends React.Component {
                       {player.player_name}
                     </td>
                     <td>
-                      {player.stats.kills}
+                      {player.stats ? player.stats.kills : 0}
                     </td>
                     <td>
-                      {player.stats.deaths}
+                      {player.stats ? player.stats.deaths : 0}
                     </td>
                     <td className="text-right">
                       {player.updated_at}
