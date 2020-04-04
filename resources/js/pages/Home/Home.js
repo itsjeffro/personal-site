@@ -1,5 +1,6 @@
 import React from 'react';
 import { PlayersTable } from './components/PlayersTable';
+import { Pagination } from '../../components/Pagination';
 
 class Home extends React.Component {
   constructor(props) {
@@ -45,19 +46,21 @@ class Home extends React.Component {
           <div className="content">
             <div className="row justify-content-center">
               <div className="col-md-8">
-                <p>The server hosts Counter-strike 1.6 via steam. Server: <span className="font-weight-bold">3.24.138.157:27015</span></p>
+                <p>The server hosts Counter-Strike 1.6 on Steam. Server: <span className="font-weight-bold">3.24.138.157:27015</span></p>
 
                 <h2>Players</h2>
 
                 <div className="row">
                   <div className="col-md-4">
                     <p>
-                      Players that have joined: { this.state.players.total }
+                      Total that have joined: { this.state.players.total }
                     </p>
                   </div>
                 </div>
 
                 <PlayersTable players={this.state.players.data} />
+
+                <Pagination total={this.state.players.total} />
               </div>
             </div>
           </div>
