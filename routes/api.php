@@ -1,9 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
-use Lcobucci\JWT\Parser;
-use Laravel\Passport\Token;
-use Illuminate\Support\Facades\Route;
+Route::post('login', 'Api\AuthController@login');
+
+Route::group(['middleware' => 'auth.jwt'], function () {
+    Route::post('logout', 'Api\AuthController@logout');
+    Route::post('refresh', 'Api\AuthController@refresh');
+    Route::post('user', 'Api\AuthController@user');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -12,30 +15,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::group(['middleware' => ['auth:api']], function () {
-        Route::get('/user', function (Request $request) {
-            return $request->user();
-        });
-    });
-
+    // Players
     Route::get('/players', 'Api\PlayerController@index');
     Route::get('/players/{player}', 'Api\PlayerController@show');
-
-    Route::get('/admins', 'Api\AdminController@index');
 });
 
 /*
 |--------------------------------------------------------------------------
 | Internal API Routes
-|--------------------------------------------------------------------------
+|-----------------------------------------------------------~---------------
 */
 
-Route::middleware('client')->group(function () {
-    Route::get('/scopes', function (Request $request) {
-        $bearerToken = $request->bearerToken();
-        $tokenId = (new Parser())->parse($bearerToken)->getHeader('jti');
-        $client = Token::find($tokenId);
+Route::group(['middleware' => 'auth.jwt', 'prefix' => 'internal'], function () {
+    // Admins
+    Route::get('/admins', 'Api\AdminController@index');
+    Route::get('/admins/{auth}', 'Api\AdminController@show');
+    Route::put('/admins/{auth}', 'Api\AdminController@update');
 
-        return $client->scopes;
-    });
+    // Admin permissions
+    Route::get('/admin-permissions', 'Api\AdminPermissionController@index');
 });
