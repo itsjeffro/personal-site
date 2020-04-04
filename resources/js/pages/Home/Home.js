@@ -62,6 +62,7 @@ class Home extends React.Component {
     const { 
       players, 
       perPage,
+      currentPage,
     } = this.state;
 
     return (
@@ -98,7 +99,7 @@ class Home extends React.Component {
                 <Pagination
                   total={ players.total }
                   perPage={ perPage }
-                  currentPage={ 1 }
+                  currentPage={ currentPage }
                   handlePageClick={ this.onPageClick }
                 />
               </div>
