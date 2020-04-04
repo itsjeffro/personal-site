@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\Api\Internal;
 
 use App\Http\Controllers\Controller;
 use App\Itsjeffro\UserRole;
@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Database\Connection as DB;
 use Illuminate\Http\Request;
 
-class RolesController extends Controller
+class RoleController extends Controller
 {
     /** @var Role */
     private $role;

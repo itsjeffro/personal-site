@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Internal;
 
 use App\Player;
 use Illuminate\Http\Request;
@@ -35,7 +35,7 @@ class PlayerController
             ->withCount(['admin'])
             ->paginate($perPage);
 
-        return PlayerResource::collection($players);
+        return response()->json($players);
     }
 
     /**
@@ -50,6 +50,6 @@ class PlayerController
             ->where('id', $player->id)
             ->first();
 
-        return new PlayerResource($player);
+        return response()->json($player);
     }
 }

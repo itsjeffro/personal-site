@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\Api\Internal;
 
-use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 
-class UsersController extends Controller
+class UserController
 {
     /** @var User */
     private $user;
@@ -37,30 +36,18 @@ class UsersController extends Controller
     /**
      * Show records.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return JsonResponse
      */
     public function index()
     {
-        return view('backend.users.list')->with([
-            'users' => $this->user->paginate(),
-        ]);
-    }
-    
-    /**
-     * Show create form.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function create()
-    {
-        return view('backend.users.create');
+        return response()->json($this->user->paginate());
     }
 
     /**
      * Create record.
      *
      * @param Request $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -71,33 +58,27 @@ class UsersController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()
-                ->route('users.create')
-                ->withErrors($validator)
-                ->withInput();
+            return response()->json([], 422);
         }
 
-        $this->user->create([
+        $user = $this->user->create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $this->hash::make($request->input('password')),
         ]);
 
-        return redirect()->route('users.list');
+        return response()->json($user, 201);
     }
     
     /**
      * Show record.
      *
      * @param User $user
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return JsonResponse
      */
     public function show(User $user)
     {
-        return view('backend.users.show')->with([
-            'user' => $user,
-            'roles' => $user->getRoleNames()->implode(', '),
-        ]);
+        return response()->json($user);
     }
 
     /**
@@ -105,10 +86,10 @@ class UsersController extends Controller
      *
      * @param Request $request
      * @param User $user
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function update(Request $request, User $user)
     {
-        return redirect()->route('users.show', ['id' => $user->id]);
+        return response()->json($user);
     }
 }

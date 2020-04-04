@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Internal;
 
 use App\AmxAdmin as Admin;
 use Illuminate\Http\Request;
@@ -78,6 +78,6 @@ class AdminController
 
         $admin->save();
 
-        return new AdminResource($admin, 200);
+        return new AdminResource($admin);
     }
 }
