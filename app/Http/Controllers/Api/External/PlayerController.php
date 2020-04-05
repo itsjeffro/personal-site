@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\External;
 use App\Player;
 use Illuminate\Http\Request;
 use App\Http\Resources\Player as PlayerResource;
+use App\Game\Sort;
 
 class PlayerController
 {
@@ -30,9 +31,25 @@ class PlayerController
     {
         $perPage = (int) $request->get('per_page', Player::DEFAULT_PER_PAGE);
 
+        // Sorts
+        $sortableColumns = [
+            'id' => 'id', 
+            'kills' => 'kills',
+            'deaths' => 'deaths',
+            'name' => 'name',
+        ];
+
+        $defaultSort = 'id:asc';
+        
+        $requestedSort = $request->get('sort', $defaultSort);
+
+        $sort = new Sort($requestedSort, $defaultSort, $sortableColumns);
+
         $players = $this->player
-            ->with(['playerStats'])
+            ->leftJoin('player_stats', 'player_stats.steam_id', '=', 'players.steam_id')
+            ->with('playerStats')
             ->withCount(['admin'])
+            ->orderBy($sort->getColumn(), $sort->getOrder())
             ->paginate($perPage);
 
         return PlayerResource::collection($players);
