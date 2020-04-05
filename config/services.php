@@ -30,4 +30,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'steam' => [
+        'api_web_key' => env('STEAM_WEB_API_KEY'),
+    ]
+
 ];
