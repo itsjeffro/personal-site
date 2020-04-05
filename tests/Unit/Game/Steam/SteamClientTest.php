@@ -5,7 +5,7 @@ namespace Tests\Unit\Game\Steam;
 use App\Game\Steam\SteamClient;
 use App\Game\Steam\EndpointBuilder;
 use GuzzleHttp\Client;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use \Mockery;
 
 class SteamClientTest extends TestCase

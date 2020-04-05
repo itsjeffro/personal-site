@@ -3,7 +3,7 @@
 namespace Tests\Unit\Game\Steam;
 
 use App\Game\Steam\EndpointBuilder;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class EndpointBuilderTest extends TestCase
 {
