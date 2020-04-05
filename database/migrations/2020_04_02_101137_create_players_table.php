@@ -20,6 +20,7 @@ class CreatePlayersTable extends Migration
                 $table->string('steam_id_64', 30)->nullable();
                 $table->string('name');
                 $table->string('ip_address');
+                $table->string('avatar', 255)->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });
