@@ -17,6 +17,7 @@ class CreatePlayersTable extends Migration
             Schema::create('players', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('steam_id')->unique();
+                $table->string('steam_id_64', 30)->nullable();
                 $table->string('name');
                 $table->string('ip_address');
                 $table->timestamps();
