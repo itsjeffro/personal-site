@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 use SteamID;
 use Psr\Log\LoggerInterface;
 
-class ConvertSteamId extends Command
+class SteamConvertId extends Command
 {
     /**
      * The name and signature of the console command.
@@ -79,6 +79,6 @@ class ConvertSteamId extends Command
             }
         }
 
-        $this->info(sprintf('[%s]  Finished', $this->signature));
+        $this->info(sprintf('[%s] Finished', $this->signature));
     }
 }
