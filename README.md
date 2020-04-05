@@ -1,5 +1,9 @@
 # Personal site
 
+Required PHP extensions:
+
+- php-gmp
+
 ## Getting started
 
 ### Installation
