@@ -18,7 +18,7 @@ export const Pagination = (props) => {
 
   return (
     <nav>
-      <ul className="pagination pagination-sm">
+      <ul className="pagination">
         {pages.map(page =>
           <li className={ 'page-item' + (page === currentPage ? ' active' : '') } key={ 'page-' + page }>
             <a className="page-link" href="#" onClick={e => handlePageClick(e, page)}>{ page }</a>
