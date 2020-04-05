@@ -8,11 +8,27 @@ require('./bootstrap');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Navbar } from './components/Navbar';
 import Home from './pages/Home';
+import Maps from './pages/Maps';
 
 if (document.getElementById('app')) {
   ReactDOM.render(
-    <Home />,
+    <Router>
+      <>
+        <Navbar />
+
+        <Switch>
+          <Route path="/maps">
+            <Maps />
+          </Route>
+          <Route path="/" exact>
+            <Home />
+          </Route>
+        </Switch>
+      </>
+    </Router>,
     document.getElementById('app')
   );
 }

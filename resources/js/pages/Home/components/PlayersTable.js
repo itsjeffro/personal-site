@@ -17,7 +17,6 @@ export const PlayersTable = (props) => {
             <th scope="col">Player name</th>
             <th scope="col" className="text-center">Kills</th>
             <th scope="col" className="text-center">Deaths</th>
-            <th scope="col" className="text-center">Kills/Death ratio</th>
             <th scope="col" className="text-right">Last updated</th>
           </tr>
         </thead>
@@ -29,7 +28,7 @@ export const PlayersTable = (props) => {
             let deaths = player.stats ? player.stats.deaths : 0;
 
             if (player.updated_at) {
-              updatedAt = moment(player.updated_at, 'YYYY-MM-DD hh:mm:ss').utc().format('DD, MMM YYYY - hh:mm A');
+              updatedAt = moment(player.updated_at, 'YYYY-MM-DDThh:mm:ss.SSSSSSZ').format('DD, MMM YYYY - hh:mm A');
               updatedAtRaw = player.updated_at;
             }
 
@@ -56,9 +55,6 @@ export const PlayersTable = (props) => {
                 </td>
                 <td className="text-center">
                   { deaths }
-                </td>
-                <td className="text-center">
-                  { calculateRatio(kills, deaths) }
                 </td>
                 <td className="text-right">
                   <span title={updatedAtRaw}>{ updatedAt }</span>

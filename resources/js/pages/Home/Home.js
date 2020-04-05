@@ -68,12 +68,10 @@ class Home extends React.Component {
 
     return (
       <>
-        <Navbar />
-
         <div className="container">
           <div className="content">
             <div className="row justify-content-center">
-              <div className="col-md-8">
+              <div className="col-lg-9">
                 <p>The server hosts Counter-Strike 1.6 on Steam. Server: <span className="font-weight-bold">13.55.196.137:27015</span></p>
 
                 <h2>Players</h2>
