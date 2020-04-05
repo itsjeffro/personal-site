@@ -6,9 +6,11 @@ export const Pagination = (props) => {
     perPage,
     currentPage,
     handlePageClick,
+    centerPagination,
   } = props;
 
   const totalPages = Math.ceil(total / perPage);
+  const centerStyle = centerPagination ? ' justify-content-center' : '';
 
   let pages = [];
 
@@ -17,14 +19,12 @@ export const Pagination = (props) => {
   }
 
   return (
-    <nav>
-      <ul className="pagination">
-        {pages.map(page =>
-          <li className={ 'page-item' + (page === currentPage ? ' active' : '') } key={ 'page-' + page }>
-            <a className="page-link" href="#" onClick={e => handlePageClick(e, page)}>{ page }</a>
-          </li>
-        )}
-      </ul>
-    </nav>
+    <ul className={'pagination' + centerStyle}>
+      {pages.map(page =>
+        <li className={ 'page-item' + (page === currentPage ? ' active' : '') } key={ 'page-' + page }>
+          <a className="page-link" href="#" onClick={e => handlePageClick(e, page)}>{ page }</a>
+        </li>
+      )}
+    </ul>
   )
 }
