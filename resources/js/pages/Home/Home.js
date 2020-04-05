@@ -14,25 +14,33 @@ class Home extends React.Component {
         data: [],
         total: 0,
       },
+      sortColumn: 'id',
+      sortOrder: 'asc',
     };
 
     this.onPageClick = this.onPageClick.bind(this);
+    this.onSortClick = this.onSortClick.bind(this);
   }
 
   /**
    * Load results once component has mounted.
    */
   componentDidMount() {
-    this.loadResults(1);
+    const { sortColumn, sortOrder } = this.state;
+
+    this.loadResults(1, sortColumn, sortOrder);
   }
 
   /**
    * Load results.
    */
-  loadResults(page) {
+  loadResults(page, column, order) {
+    let sort = `${column}:${order}`;
+    let perPage = this.state.perPage;
+
     axios.request({
       method: 'GET',
-      url: '/api/v1/players?per_page=' + this.state.perPage + '&page=' + page,
+      url: `/api/v1/players?sort=${sort}&per_page=${perPage}&page=${page}`,
       responseType: 'json'
     })
     .then(response => {
@@ -47,13 +55,36 @@ class Home extends React.Component {
 
   /**
    * Update page results on page click.
+   * 
+   * @param {object} event
+   * @param {string} page
    */
   onPageClick(event, page) {
     event.preventDefault();
 
     window.scrollTo(0, 0);
 
-    this.loadResults(page);
+    const { sortColumn, sortOrder } = this.state;
+
+    this.loadResults(page, sortColumn, sortOrder);
+  }
+
+  /**
+   * Update result sort/order.
+   *
+   * @param {object} event
+   * @param {string} column
+   */
+  onSortClick(event, column) {
+    event.preventDefault();
+
+    const { sortOrder } = this.state;
+
+    const order = sortOrder === 'asc' ? 'desc' : 'asc';
+
+    this.loadResults(1, column, order);
+
+    this.setState({ sortColumn: column, sortOrder: order });
   }
 
   /**
@@ -86,6 +117,7 @@ class Home extends React.Component {
 
                 <PlayersTable 
                   players={ players.data }
+                  handleSortClick={ this.onSortClick }
                 />
 
                 <Pagination

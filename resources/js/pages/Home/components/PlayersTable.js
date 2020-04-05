@@ -1,10 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import { calculateRatio } from '../../../helpers/math';
 
 export const PlayersTable = (props) => {
   const {
-    players
+    players,
+    handleSortClick,
   } = props;
 
   return (
@@ -12,12 +12,22 @@ export const PlayersTable = (props) => {
       <table className="table">
         <thead>
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col">
+              <a href="#" onClick={ e => handleSortClick(e, 'id') }>ID</a>
+            </th>
             <th scope="col"></th>
-            <th scope="col">Player name</th>
-            <th scope="col" className="text-center">Kills</th>
-            <th scope="col" className="text-center">Deaths</th>
-            <th scope="col" className="text-right">Last updated</th>
+            <th scope="col">
+              <a href="#" onClick={ e => handleSortClick(e, 'name') }>Player name</a>
+            </th>
+            <th scope="col" className="text-center">
+              <a href="#" onClick={ e => handleSortClick(e, 'kills') }>Kills</a>
+            </th>
+            <th scope="col" className="text-center">
+              <a href="#" onClick={ e => handleSortClick(e, 'deaths') }>Deaths</a>
+            </th>
+            <th scope="col" className="text-right">
+              Last updated
+            </th>
           </tr>
         </thead>
         <tbody>
