@@ -1,6 +1,7 @@
 import React from 'react';
 import { PlayersTable } from './components/PlayersTable';
 import { Pagination } from '../../components/Pagination';
+import { Navbar } from '../../components/Navbar';
 
 class Home extends React.Component {
   constructor(props) {
@@ -67,14 +68,7 @@ class Home extends React.Component {
 
     return (
       <>
-        <nav className="navbar navbar-dark bg-primary">
-          <a className="navbar-brand" href="/">Itsjeffro.com</a>
-
-          <form className="form-inline">
-            <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        </nav>
+        <Navbar />
 
         <div className="container">
           <div className="content">
@@ -101,6 +95,7 @@ class Home extends React.Component {
                   perPage={ perPage }
                   currentPage={ currentPage }
                   handlePageClick={ this.onPageClick }
+                  centerPagination
                 />
               </div>
             </div>
