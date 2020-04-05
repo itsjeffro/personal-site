@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 export const PlayersTable = (props) => {
   const {
@@ -6,7 +7,7 @@ export const PlayersTable = (props) => {
   } = props;
 
   return (
-    <div class="table-responsive">
+    <div className="table-responsive">
       <table className="table">
         <thead>
           <tr>
@@ -44,7 +45,7 @@ export const PlayersTable = (props) => {
                 {player.stats ? player.stats.deaths : 0}
               </td>
               <td className="text-right">
-                {player.updated_at ? player.updated_at : 'N/A'}
+                {player.updated_at ? moment(player.updated_at, 'YYYY-MM-DD hh:ss').format('D, MMM YYYY - hh:ss A') : 'N/A'}
               </td>
             </tr>
           ))}
