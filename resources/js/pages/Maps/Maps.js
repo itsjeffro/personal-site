@@ -41,7 +41,7 @@ class Maps extends React.Component {
         <div className="container">
           <div className="content">
             <div className="row justify-content-center">
-              <div className="col-lg-9">
+              <div className="col-lg-10">
                 
                 <h2>Maps</h2>
 

@@ -40,7 +40,7 @@ class Home extends React.Component {
 
     axios.request({
       method: 'GET',
-      url: `/api/v1/players?sort=${sort}&per_page=${perPage}&page=${page}`,
+      url: `/api/v1/player-stats?sort=${sort}&per_page=${perPage}&page=${page}`,
       responseType: 'json'
     })
     .then(response => {
@@ -102,7 +102,7 @@ class Home extends React.Component {
         <div className="container">
           <div className="content">
             <div className="row justify-content-center">
-              <div className="col-lg-9">
+              <div className="col-lg-10">
                 <p>The server hosts Counter-Strike 1.6 on Steam. Server: <span className="font-weight-bold">13.55.196.137:27015</span></p>
 
                 <h2>Players</h2>
