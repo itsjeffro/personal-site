@@ -18,6 +18,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\External'], function () {
     // Players
     Route::get('/players', 'PlayerController@index');
     Route::get('/players/{player}', 'PlayerController@show');
+
+    // Player stats
+    Route::get('/player-stats', 'PlayerStatsController@index');
 });
 
 /*
