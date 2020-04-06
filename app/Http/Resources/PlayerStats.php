@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Player;
 
 class PlayerStats extends JsonResource
 {
@@ -17,7 +18,7 @@ class PlayerStats extends JsonResource
         return [
             'id' => $this->id,
             'player_name' => $this->name,
-            'avatar' => $this->player->avatar,
+            'avatar' => ($this->player instanceof Player) ? $this->player->avatar : null,
             'kills' => $this->kills,
             'deaths' => $this->deaths,
             'hits' => $this->hits,
