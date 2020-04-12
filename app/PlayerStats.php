@@ -12,6 +12,15 @@ class PlayerStats extends Model
     /** @var int */
     const DEFAULT_PER_PAGE = 25;
 
+    /** @array[] */
+    public $sortableColumns = [
+        'id' => 'id', 
+        'kills' => 'kills',
+        'deaths' => 'deaths',
+        'name' => 'name',
+        'updated_at' => 'updated_at',
+    ];
+
     /**
      * Player's overall stats.
      *

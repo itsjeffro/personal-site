@@ -32,18 +32,11 @@ class PlayerStatsController
         $perPage = (int) $request->get('per_page', PlayerStats::DEFAULT_PER_PAGE);
 
         // Sorts
-        $sortableColumns = [
-            'id' => 'id', 
-            'kills' => 'kills',
-            'deaths' => 'deaths',
-            'name' => 'name',
-        ];
-
         $defaultSort = 'id:asc';
         
         $requestedSort = $request->get('sort', $defaultSort);
 
-        $sort = new Sort($requestedSort, $defaultSort, $sortableColumns);
+        $sort = new Sort($requestedSort, $defaultSort, $this->playerStats->sortableColumns);
 
         $playerStats = $this->playerStats
             ->with('player')
