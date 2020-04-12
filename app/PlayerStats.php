@@ -12,7 +12,10 @@ class PlayerStats extends Model
     /** @var int */
     const DEFAULT_PER_PAGE = 25;
 
-    /** @array[] */
+    /** @var string */
+    public $sortDefault = 'kills:desc';
+
+    /** @var array[] */
     public $sortableColumns = [
         'id' => 'id', 
         'kills' => 'kills',
