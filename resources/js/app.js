@@ -20,12 +20,8 @@ if (document.getElementById('app')) {
         <Navbar />
 
         <Switch>
-          <Route path="/maps">
-            <Maps />
-          </Route>
-          <Route path="/" exact>
-            <Home />
-          </Route>
+          <Route path="/maps" component={Maps} />
+          <Route path="/" exact component={Home} />
         </Switch>
       </>
     </Router>,

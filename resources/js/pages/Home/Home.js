@@ -1,7 +1,6 @@
 import React from 'react';
 import { PlayersTable } from './components/PlayersTable';
 import { Pagination } from '../../components/Pagination';
-import { Navbar } from '../../components/Navbar';
 
 class Home extends React.Component {
   constructor(props) {

@@ -32,7 +32,7 @@ export const PlayersTable = (props) => {
               Headshots
             </th>
             <th scope="col" className="text-right">
-              Last updated
+              <a href="#" onClick={ e => handleSortClick(e, 'updated_at') }>Last updated</a>
             </th>
           </tr>
         </thead>
