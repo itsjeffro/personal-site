@@ -13,8 +13,8 @@ class Home extends React.Component {
         data: [],
         total: 0,
       },
-      sortColumn: 'id',
-      sortOrder: 'asc',
+      sortColumn: null,
+      sortOrder: null,
     };
 
     this.onPageClick = this.onPageClick.bind(this);
@@ -34,12 +34,24 @@ class Home extends React.Component {
    * Load results.
    */
   loadResults(page, column, order) {
-    let sort = `${column}:${order}`;
-    let perPage = this.state.perPage;
+    let queries = [
+      {'name': 'per_page', 'value': this.state.perPage},
+      {'name': 'page', 'value': page},
+    ];
+
+    if (column && order) {
+      queries.push({ 'name': 'sort', 'value': `${column}:${order}` });
+    }
+
+    let urlQueries = queries.map(query => {
+      return `${query.name}=${query.value}`
+    });
+
+    urlQueries = urlQueries.join('&');
 
     axios.request({
       method: 'GET',
-      url: `/api/v1/player-stats?sort=${sort}&per_page=${perPage}&page=${page}`,
+      url: `/api/v1/player-stats?${urlQueries}`,
       responseType: 'json'
     })
     .then(response => {
