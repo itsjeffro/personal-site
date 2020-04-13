@@ -40,3 +40,17 @@ Install the required dependencies with `npm run install`. After, you may compile
 ```
 npm run prod
 ```
+
+## Tests
+
+To run unit tests.
+
+```bash
+$ ./vendor/bin/phpunit
+```
+
+To generate code coverage.
+
+```bash
+$ ./vendor/bin/phpunit --coverage-html ./coverage
+```
