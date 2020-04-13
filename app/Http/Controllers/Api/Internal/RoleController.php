@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api\Internal;
 
-use App\Http\Controllers\Controller;
 use App\Itsjeffro\UserRole;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Connection as DB;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class RoleController
 {
     /** @var Role */
     private $role;
