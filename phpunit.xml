@@ -20,6 +20,15 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
+            <exclude>
+                <file>./app/Exceptions/Handler.php</file>
+                <file>./app/Console/Kenrel.php</file>
+                <directory suffix=".php">./bootstrap</directory>
+                <directory suffix=".php">./config</directory>
+                <directory suffix=".php">./database</directory>
+                <directory suffix=".php">./routes</directory>
+                <directory suffix=".php">./storage</directory>
+            </exclude>
         </whitelist>
     </filter>
     <php>
