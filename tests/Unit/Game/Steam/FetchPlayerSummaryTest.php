@@ -10,13 +10,40 @@ use \Mockery;
 
 class FetchPlayerSummaryTest extends TestCase
 {
-    public function testBatchSizeIsReturned()
+    private $player;
+
+    protected function setUp(): void
     {
-        $player = new Player();
+        $this->player = new Player();
+    }
+
+    public function testCorrectNumberOfBatchesReturned()
+    {
         $steamClient = Mockery::mock(SteamClient::class);
         $steamClient->shouldReceive('fetchPlayerSummary')->andReturn([]);
 
-        $fetchPlayerSummary = new FetchPlayerSummary($player, $steamClient);
+        $fetchPlayerSummary = new FetchPlayerSummary($this->player, $steamClient);
+        $fetchPlayerSummary->setBatchSize(2);
+
+        $players = [
+            ['steam_id_64' => 'STEAM_ID_LAN'],
+            ['steam_id_64' => 'STEAM_ID_LAN'],
+            ['steam_id_64' => 'STEAM_ID_LAN'],
+            ['steam_id_64' => 'STEAM_ID_LAN'],
+            ['steam_id_64' => 'STEAM_ID_LAN'],
+        ];
+
+        $batches = $fetchPlayerSummary->preparePlayerBatches($players);
+
+        $this->assertEquals(3, count($batches));
+    }
+
+    public function testBatchSizeIsReturned()
+    {
+        $steamClient = Mockery::mock(SteamClient::class);
+        $steamClient->shouldReceive('fetchPlayerSummary')->andReturn([]);
+
+        $fetchPlayerSummary = new FetchPlayerSummary($this->player, $steamClient);
         $fetchPlayerSummary->setBatchSize(20);
         
         $this->assertEquals(20, $fetchPlayerSummary->getBatchSize());
