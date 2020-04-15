@@ -9,9 +9,11 @@
 /coverage
 /.idea
 /.vscode
+/environment/mysql
 .env
 .env.backup
 .phpunit.result.cache
+.docker.env
 Homestead.json
 Homestead.yaml
 npm-debug.log
