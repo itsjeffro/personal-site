@@ -21,6 +21,19 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\External'], function () {
 
     // Player stats
     Route::get('/player-stats', 'PlayerStatsController@index');
+
+    // Forum topics
+    Route::get('/topics', 'TopicController@index');
+    Route::get('/topics/{topic}', 'TopicController@show');
+
+    Route::group(['middleware' => 'auth.jwt'], function () {
+        // Forum topics
+        Route::post('/topics', 'TopicController@store');
+        Route::put('/topics/{topic}', 'TopicController@update');
+
+        // Forum topic replies
+        Route::post('/topics/{topic}/replies', 'TopicReplyController@store');
+    });
 });
 
 /*
