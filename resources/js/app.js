@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Navbar } from './components/Navbar';
 import Home from './pages/Home';
 import Maps from './pages/Maps';
+import Discussion from './pages/Discussion';
 
 if (document.getElementById('app')) {
   ReactDOM.render(
@@ -20,6 +21,7 @@ if (document.getElementById('app')) {
         <Navbar />
 
         <Switch>
+          <Route path="/discussions" component={Discussion} />
           <Route path="/maps" component={Maps} />
           <Route path="/" exact component={Home} />
         </Switch>
