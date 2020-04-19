@@ -16,13 +16,13 @@ export const TopicsTable = (props) => {
           <tr>
             <th width="2%"></th>
             <th scope="col">
-              <a href="#" onClick={ e => handleSortClick(e, 'title') }>Title</a>
+              Title
             </th>
             <th scope="col" className="text-center">
-              <a href="#" onClick={ e => handleSortClick(e, 'views') }>Views</a>
+              Views
             </th>
             <th scope="col" className="text-center">
-              <a href="#" onClick={ e => handleSortClick(e, 'replies') }>Replies</a>
+              Replies
             </th>
           </tr>
         </thead>
