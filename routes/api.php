@@ -26,6 +26,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api\External'], function () {
     Route::get('/topics', 'TopicController@index');
     Route::get('/topics/{topic}', 'TopicController@show');
 
+    // Forum topic replies
+    Route::get('/topics/{topic}/replies', 'TopicReplyController@index');
+
     Route::group(['middleware' => 'auth.jwt'], function () {
         // Forum topics
         Route::post('/topics', 'TopicController@store');
