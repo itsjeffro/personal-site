@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import Topic from '../../Topic/Topic';
 
 export const TopicsTable = (props) => {
   const {
@@ -13,6 +14,7 @@ export const TopicsTable = (props) => {
       <table className="table">
         <thead>
           <tr>
+            <th width="2%"></th>
             <th scope="col">
               <a href="#" onClick={ e => handleSortClick(e, 'title') }>Title</a>
             </th>
@@ -22,32 +24,42 @@ export const TopicsTable = (props) => {
             <th scope="col" className="text-center">
               <a href="#" onClick={ e => handleSortClick(e, 'replies') }>Replies</a>
             </th>
-            <th scope="col" className="text-right">
-              <a href="#" onClick={ e => handleSortClick(e, 'updated_at') }>Last updated</a>
-            </th>
           </tr>
         </thead>
         <tbody>
           {rows.map(row => {
-            let updatedAt = 'N/A';
+            let latestCreatedAtUtc = row.created_at;
+            let latestAuthor = row.author ? row.author.name : '';
 
-            if (row.updated_at) {
-              updatedAt = moment(row.updated_at, 'YYYY-MM-DDThh:mm:ss.SSSSSSZ').format('DD, MMM YYYY - hh:mm A');
+            if (row.latest_reply) {
+              latestCreatedAtUtc = row.latest_reply.created_at;
+              latestAuthor = row.latest_reply ? row.latest_reply.author.name : '';
             }
+
+            let latestCreatedAt = moment.utc(latestCreatedAtUtc).toDate();
+            latestCreatedAt = moment(latestCreatedAt).format('DD, MMM YYYY - hh:mm A');
 
             return (
               <tr key={ row.id }>
+                <td width="2%">
+                  <img 
+                    className="rounded" 
+                    src={ '/images/player_default.jpg' } 
+                    width="25" 
+                    height="25"
+                    title={ 'Created by ' + row.author.name }
+                  />
+                </td>
                 <td>
-                  <Link to={`/discussions/topics/${row.slug}`}>{ row.title }</Link>
+                  <div><Link to={`/discussions/topics/${row.id}`}>{ row.title }</Link></div>
+                  <span>
+                    { latestAuthor } - <span title={ latestCreatedAtUtc + ' GMT' }>{ latestCreatedAt }</span></span>
                 </td>
                 <td className="text-center">
                   { row.views }
                 </td>
                 <td className="text-center">
                   { row.replies }
-                </td>
-                <td className="text-right">
-                  <span title={ row.updated_at }>{ updatedAt }</span>
                 </td>
               </tr>
             )
