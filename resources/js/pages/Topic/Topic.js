@@ -100,7 +100,7 @@ export default class Topic extends React.Component {
 
     return (
       <>
-        <div className="pt-3 pb-3 bg-secondary text-white">
+        <div className="pt-2 pb-2 bg-secondary text-white">
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-lg-10">
