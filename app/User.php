@@ -11,6 +11,9 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasRoles, Notifiable;
 
+    /** @var string */
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
