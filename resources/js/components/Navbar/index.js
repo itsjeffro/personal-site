@@ -11,7 +11,7 @@ export const Navbar = (props) => {
       </button>
       
       <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav">
+        <ul className="nav navbar-nav">
           <li className="nav-item">
             <NavLink exact className="nav-link" to="/">Player board</NavLink>
           </li>
@@ -22,6 +22,12 @@ export const Navbar = (props) => {
 
           <li className="nav-item">
             <NavLink className="nav-link" to="/discussions">Discussions</NavLink>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Login via Steam</a>
           </li>
         </ul>
       </div>
