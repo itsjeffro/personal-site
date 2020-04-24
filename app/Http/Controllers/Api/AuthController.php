@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use JWTAuth;
+use Illuminate\Http\JsonResponse;
 
 class AuthController
 {
     /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * Log in user.
      */
-    public function login()
+    public function login(): JsonResponse
     {
         $credentials = request(['email', 'password']);
         $token = null;
@@ -25,20 +24,16 @@ class AuthController
 
     /**
      * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function user()
+    public function user(): JsonResponse
     {
         return response()->json(auth()->user());
     }
 
     /**
      * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(): JsonResponse
     {
         auth()->logout();
 
@@ -47,22 +42,16 @@ class AuthController
 
     /**
      * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh()
+    public function refresh(): JsonResponse
     {
         return $this->respondWithToken(auth()->refresh());
     }
 
     /**
      * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken(string $token): JsonResponse
     {
         return response()->json([
             'access_token' => $token,
