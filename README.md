@@ -33,6 +33,16 @@ Before running the project migrations, ensure that you have set you database cre
 php artisan migrate --seed
 ```
 
+### JWT setup
+
+```bash
+openssl genrsa -out id_rsa.pem 2048
+```
+
+```bash
+openssl rsa -in id_rsa.pem -outform PEM -pubout -out id_rsa.pub
+```
+
 ### Assets
 
 Install the required dependencies with `npm run install`. After, you may compile the files under `/resources` using the following command below.
