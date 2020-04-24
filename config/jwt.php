@@ -57,7 +57,7 @@ return [
         |
         */
 
-        'public' => env('JWT_PUBLIC_KEY'),
+        'public' => file_get_contents(storage_path(env('JWT_PUBLIC_KEY'))),
 
         /*
         |--------------------------------------------------------------------------
@@ -70,7 +70,7 @@ return [
         |
         */
 
-        'private' => env('JWT_PRIVATE_KEY'),
+        'private' => file_get_contents(storage_path(env('JWT_PRIVATE_KEY'))),
 
         /*
         |--------------------------------------------------------------------------
