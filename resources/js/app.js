@@ -14,6 +14,7 @@ import Home from './pages/Home';
 import Maps from './pages/Maps';
 import Discussion from './pages/Discussion';
 import Topic from './pages/Topic';
+import Login from './pages/Login/Login';
 
 if (document.getElementById('app')) {
   ReactDOM.render(
@@ -25,6 +26,7 @@ if (document.getElementById('app')) {
           <Route path="/discussions/topics/:topic" component={Topic} />
           <Route path="/discussions" component={Discussion} />
           <Route path="/maps" component={Maps} />
+          <Route path="/login" component={Login} />
           <Route path="/" exact component={Home} />
         </Switch>
       </>
