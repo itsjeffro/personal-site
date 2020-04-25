@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { Pagination } from '../../components/Pagination';
+import TopicApi from '../../api/TopicApi';
+import { Reply } from './components/Reply';
 
 export default class Topic extends React.Component {
   constructor(props) {
@@ -17,10 +19,15 @@ export default class Topic extends React.Component {
       replies: {
         data: [],
         total: 0,
+      },
+      input: {
+        reply: '',
       }
     };
 
-    this.onPageClick = this.onPageClick.bind(this);
+    this.topicApi = new TopicApi(axios);
+
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   /**
@@ -34,6 +41,8 @@ export default class Topic extends React.Component {
    * Load results.
    */
   loadResults(page) {
+    const { topic } = this.props.match.params;
+
     let queries = [
       {'name': 'per_page', 'value': this.state.perPage},
       {'name': 'page', 'value': page},
@@ -43,30 +52,22 @@ export default class Topic extends React.Component {
       return `${query.name}=${query.value}`
     });
 
-    const { topic } = this.props.match.params;
-
     urlQueries = urlQueries.join('&');
 
-    axios.request({
-      method: 'GET',
-      url: `/api/v1/topics/${topic}`,
-      responseType: 'json'
-    })
-    .then(response => {
-      this.setState({ topic: response.data });
-    });
-
-    axios.request({
-      method: 'GET',
-      url: `/api/v1/topics/${topic}/replies?${urlQueries}`,
-      responseType: 'json'
-    })
-    .then(response => {
-      this.setState({
-        replies: response.data,
-        currentPage: response.data.current_page
+    this.topicApi
+      .getTopicById(topic)
+      .then(response => {
+        this.setState({ topic: response.data });
       });
-    });
+
+    this.topicApi
+      .getRepliesByTopicId(topic, urlQueries)
+      .then(response => {
+        this.setState({
+          replies: response.data,
+          currentPage: response.data.current_page
+        });
+      });
   }
 
   /**
@@ -75,13 +76,54 @@ export default class Topic extends React.Component {
    * @param {object} event
    * @param {string} page
    */
-  onPageClick(event, page) {
+  handlePageClick(event, page) {
     event.preventDefault();
 
     window.scrollTo(0, 0);
 
     this.loadResults(page);
   }
+
+  /**
+   * Handles input change on input fields.
+   *
+   * @param {*} e
+   */
+  handleInputChange(e) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    let input = Object.assign({}, this.state.input);
+
+    input[name] = value;
+
+    this.setState({ input: input });
+  }
+
+  /**
+   * Save reply on click.
+   * 
+   * @param {object} topic
+   */
+  handleReplyClick(topic) {
+    event.preventDefault();
+
+    const accessToken = localStorage.getItem('accessToken');
+
+    this.topicApi
+      .createTopicReply(accessToken, topic.id, {
+        body: this.state.input.reply
+      })
+      .then(response => {
+        console.log(reponse);
+      }, error => {
+        console.log(error);
+      })
+
+    alert(`replied to ${topic.id}`)
+  }
+
 
   /**
    * Render DOM.
@@ -117,14 +159,12 @@ export default class Topic extends React.Component {
               <div className="col-lg-10">
                 <h2>{ topic.title } </h2>
 
-                <div className="p-3 mb-3 border border-top border-left border-bottom border-right rounded">
-                  <p>
-                    <span className="font-weight-bold">{ topic.author ? topic.author.name : '' } - </span>
-                    <span className="text-secondary" title={ topic.created_at + ' GMT' }>{ topicCreatedAt }</span>
-                  </p>
-
-                  { topic.body }
-                </div>
+                <Reply
+                  authorName={ topic.author ? topic.author.name : '' }
+                  createdAt={ topicCreatedAt }
+                  createdAtGMT={ topic.created_at + ' GMT' }
+                  body={ topic.body }
+                />
 
                 <h5>Replies</h5>
 
@@ -136,14 +176,13 @@ export default class Topic extends React.Component {
                   replyCreatedAt = moment(replyCreatedAt).format('DD, MMM YYYY - hh:mm A');
                   
                   return (
-                    <div key={reply.id} className="p-3 mb-3 border border-top border-left border-bottom border-right rounded">
-                      <p>
-                        <span className="font-weight-bold">{ reply.author ? reply.author.name : '' } - </span>
-                        <span className="text-secondary" title={ reply.created_at + ' GMT' }>{ replyCreatedAt }</span>
-                      </p>
-    
-                      { reply.body }
-                    </div>
+                    <Reply
+                      key={ 'reply_' + reply.id }
+                      authorName={ reply.author ? reply.author.name : '' }
+                      createdAt={ replyCreatedAt }
+                      createdAtGMT={ reply.created_at + ' GMT' }
+                      body={ reply.body }
+                    />
                   )
                 })}
 
@@ -151,9 +190,17 @@ export default class Topic extends React.Component {
                   total={ replies.total }
                   perPage={ perPage }
                   currentPage={ currentPage }
-                  handlePageClick={ this.onPageClick }
+                  handlePageClick={ this.handlePageClick }
                   centerPagination
                 />
+
+                <div>
+                  <h5>Reply to conversation</h5>
+                  <div className="form-group">
+                    <textarea className="form-control" name="reply" onChange={ e => this.handleInputChange(e) }></textarea>
+                  </div>
+                  <button className="btn btn-primary" onClick={ e => this.handleReplyClick(topic) }>Post</button>
+                </div>
               </div>
             </div>
           </div>
