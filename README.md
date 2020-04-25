@@ -35,13 +35,20 @@ php artisan migrate --seed
 
 ### JWT setup
 
-```bash
-openssl genrsa -out id_rsa.pem 2048
-```
+#### Generate private key
+
+This will be used for signing your JWTs.
 
 ```bash
-openssl rsa -in id_rsa.pem -outform PEM -pubout -out id_rsa.pub
+openssl genrsa -out key.pem 2048
 ```
+This will be used for verifying you signed JWTs.
+
+```bash
+openssl req -new -x509 -key key.pem -out public.pem -days 1095
+```
+
+Follow the prompts.
 
 ### Assets
 
