@@ -1,5 +1,5 @@
 import React from 'react';
-import jwt from 'jsonwebtoken';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
 
 export default class Login extends React.Component {
@@ -8,6 +8,10 @@ export default class Login extends React.Component {
 
     this.state = {
       isLoggingIn: false,
+      user: {
+        name: '',
+        picture: '',
+      },
       input: {
         email: '',
         password: '',
@@ -22,15 +26,29 @@ export default class Login extends React.Component {
 
     const client = jwksClient({
       jwksUri: '/.well-known/jwks.json',
-      requestHeaders: {}
     });
 
     client.getSigningKey('jwt_id_rsa', (err, key) => {
-      let publicKey = key.getPublicKey();
+      try {
+        const publicKey = key.getPublicKey();
+        const decoded = jwt.verify(accessToken, publicKey);
 
-      const decoded = jwt.verify(accessToken, publicKey);
+        const user = {
+          name: decoded.name || '',
+          picture: decoded.picture || '',
+        };
 
-      console.log(decoded);
+        this.setState({ user: user });
+        
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (e) {
+        if (e instanceof TokenExpiredError) {
+          localStorage.setItem('user', null);
+          localStorage.setItem('accessToken', null);
+        }
+
+        throw e;
+      }
     });
   }
 
