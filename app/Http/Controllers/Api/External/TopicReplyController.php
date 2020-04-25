@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\External;
 
+use App\Http\Requests\ReplyRequest;
 use App\Models\Reply;
 use App\Models\Topic;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class TopicReplyController
 {
@@ -27,11 +27,11 @@ class TopicReplyController
         return response()->json($replies);
     }
 
-    public function store(Request $request, Topic $topic): JsonResponse
+    public function store(ReplyRequest $request, Topic $topic): JsonResponse
     {
         $reply = new Reply();
 
-        $reply->topic = $topic;
+        $reply->topic_id = $topic->id;
         $reply->user_id = auth()->id();
         $reply->body = $request->get('body');
 
