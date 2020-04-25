@@ -57,7 +57,7 @@ return [
         |
         */
 
-        'public' => file_get_contents(storage_path(env('JWT_PUBLIC_KEY'))),
+        'public' => storage_path(env('JWT_PUBLIC_KEY')),
 
         /*
         |--------------------------------------------------------------------------
@@ -70,7 +70,7 @@ return [
         |
         */
 
-        'private' => file_get_contents(storage_path(env('JWT_PRIVATE_KEY'))),
+        'private' => storage_path(env('JWT_PRIVATE_KEY')),
 
         /*
         |--------------------------------------------------------------------------
@@ -275,7 +275,7 @@ return [
         |
         */
 
-        'jwt' => Tymon\JWTAuth\Providers\JWT\Lcobucci::class,
+        'jwt' => App\Game\Auth\JwtProvider::class,
 
         /*
         |--------------------------------------------------------------------------
