@@ -1,4 +1,6 @@
 import React from 'react';
+import jwt from 'jsonwebtoken';
+import jwksClient from 'jwks-rsa';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -18,7 +20,18 @@ export default class Login extends React.Component {
   componentDidMount() {
     const accessToken = localStorage.getItem('accessToken');
 
-    console.log(accessToken);
+    const client = jwksClient({
+      jwksUri: '/.well-known/jwks.json',
+      requestHeaders: {}
+    });
+
+    client.getSigningKey('jwt_id_rsa', (err, key) => {
+      let publicKey = key.getPublicKey();
+
+      const decoded = jwt.verify(accessToken, publicKey);
+
+      console.log(decoded);
+    });
   }
 
   handleInputChange(e) {
