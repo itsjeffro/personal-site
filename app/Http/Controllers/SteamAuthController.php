@@ -46,8 +46,10 @@ class SteamAuthController
      */
     public function login()
     {
+        $appUrl = config('app.url');
+
         $returnUrl = $this->steamAuth
-            ->setReturnUrl('http://local.itsjeffro.com/steam/auth')
+            ->setReturnUrl(rtrim($appUrl, '/') . '/steam/auth')
             ->steamLoginUrl();
 
         return redirect($returnUrl);
