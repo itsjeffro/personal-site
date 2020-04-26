@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pagination } from '../../components/Pagination';
 import { TopicsTable } from './components/TopicsTable';
+import TopicApi from '../../api/TopicApi';
 
 class Discussion extends React.Component {
   constructor(props) {
@@ -13,9 +14,16 @@ class Discussion extends React.Component {
         data: [],
         total: 0,
       },
+      input: {
+        title: '',
+        body: '',
+      }
     };
 
-    this.onPageClick = this.onPageClick.bind(this);
+    this.topicApi = new TopicApi(axios);
+
+    this.handleTopicClick = this.handleTopicClick.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   /**
@@ -40,22 +48,36 @@ class Discussion extends React.Component {
 
     urlQueries = urlQueries.join('&');
 
-    axios.request({
-      method: 'GET',
-      url: `/api/v1/topics?${urlQueries}`,
-      responseType: 'json'
-    })
-    .then(response => {
-      const topics = {
-        data: response.data.data,
-        total: response.data.total
-      };
+    this.topicApi
+      .getTopics(urlQueries)
+      .then(response => {
+        const topics = {
+          data: response.data.data,
+          total: response.data.total
+        };
 
-      this.setState({ 
-        topics: topics,
-        currentPage: response.data.current_page
+        this.setState({ 
+          topics: topics,
+          currentPage: response.data.current_page
+        });
       });
-    });
+  }
+
+  /**
+   * Handles input change on input fields.
+   *
+   * @param {*} e
+   */
+  handleInputChange(e) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    let input = Object.assign({}, this.state.input);
+
+    input[name] = value;
+
+    this.setState({ input: input });
   }
 
   /**
@@ -64,12 +86,28 @@ class Discussion extends React.Component {
    * @param {object} event
    * @param {string} page
    */
-  onPageClick(event, page) {
+  handlePageClick(event, page) {
     event.preventDefault();
 
     window.scrollTo(0, 0);
 
     this.loadResults(page);
+  }
+
+  /**
+   * Creates new topic.
+   */
+  handleTopicClick() {
+    const data = this.state.input;
+    const accessToken = localStorage.getItem('accessToken');
+  
+    this.topicApi
+      .createTopic(accessToken, data)
+      .then(response => {
+        console.log(response);
+      }, error => {
+        console.log(error);
+      })
   }
 
   /**
@@ -101,9 +139,20 @@ class Discussion extends React.Component {
                   total={ topics.total }
                   perPage={ perPage }
                   currentPage={ currentPage }
-                  handlePageClick={ this.onPageClick }
+                  handlePageClick={ this.handlePageClick }
                   centerPagination
                 />
+
+                <div>
+                  <h5>New topic</h5>
+                  <div className="form-group">
+                    <input type="text" className="form-control" name="title" onChange={ e => this.handleInputChange(e) } />
+                  </div>
+                  <div className="form-group">
+                    <textarea className="form-control" name="body" onChange={ e => this.handleInputChange(e) }></textarea>
+                  </div>
+                  <button className="btn btn-primary" onClick={ this.handleTopicClick }>Post</button>
+                </div>
               </div>
             </div>
           </div>
