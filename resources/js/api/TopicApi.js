@@ -3,6 +3,15 @@ class TopicApi {
     this.httpClient = httpClient;
   }
 
+  getTopics(urlQueries) {
+    return this.httpClient
+      .request({
+        method: 'GET',
+        url: `/api/v1/topics?${urlQueries}`,
+        responseType: 'json'
+      });
+  }
+
   getTopicById(topic) {
     let topicId = parseInt(topic);
 
@@ -22,6 +31,19 @@ class TopicApi {
         method: 'GET',
         url: `/api/v1/topics/${topicId}/replies?${urlQueries}`,
         responseType: 'json'
+      });
+  }
+
+  createTopic(accessToken, data) {
+    return this.httpClient
+      .request({
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+        method: 'POST',
+        url: `/api/v1/topics`,
+        responseType: 'json',
+        data: data
       });
   }
 
