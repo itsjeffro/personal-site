@@ -1,6 +1,8 @@
 import React from 'react';
-import jwt, { TokenExpiredError } from 'jsonwebtoken';
+import { Redirect } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
+import AuthService from '../../services/AuthService';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -8,6 +10,7 @@ export default class Login extends React.Component {
 
     this.state = {
       isLoggingIn: false,
+      isLoggedIn: false,
       user: {
         name: '',
         picture: '',
@@ -18,41 +21,32 @@ export default class Login extends React.Component {
       },
     };
 
-    this.handleLoginClick = this.handleLoginClick.bind(this);
-  }
-
-  componentDidMount() {
-    const accessToken = localStorage.getItem('accessToken');
-
     const client = jwksClient({
       jwksUri: '/.well-known/jwks.json',
     });
 
-    client.getSigningKey('jwt_id_rsa', (err, key) => {
-      try {
-        const publicKey = key.getPublicKey();
-        const decoded = jwt.verify(accessToken, publicKey);
+    this.auth = new AuthService(localStorage, jwt, client);
 
-        const user = {
-          name: decoded.name || '',
-          picture: decoded.picture || '',
-        };
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+  }
 
-        this.setState({ user: user });
+  /**
+   * Check authenticated user.
+   */
+  componentDidMount() {
+    this.auth.check(user => {
+      this.setState({ user: user });
         
-        localStorage.setItem('user', JSON.stringify(user));
-      } catch (e) {
-        if (e instanceof TokenExpiredError) {
-          localStorage.setItem('user', null);
-          localStorage.setItem('accessToken', null);
-        }
-
-        throw e;
-      }
+      localStorage.setItem('user', JSON.stringify(user));
     });
   }
 
-  handleInputChange(e) {
+  /**
+   * Handle input changes and store them in state.
+   *
+   * @param {object} event 
+   */
+  handleInputChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -64,6 +58,9 @@ export default class Login extends React.Component {
     this.setState({ input: input });
   }
 
+  /**
+   * Handle login click.
+   */
   handleLoginClick() {
     const { input } = this.state;
 
@@ -83,14 +80,18 @@ export default class Login extends React.Component {
 
       localStorage.setItem('accessToken', access_token);
 
-      this.setState({ isLoggingIn: false });
+      this.setState({ isLoggingIn: false, isLoggedIn: true });
     }, error => {
       this.setState({ isLoggingIn: false });
     });
   }
 
   render() {
-    const { isLoggingIn } = this.state;
+    const { isLoggingIn, isLoggedIn } = this.state;
+
+    if (isLoggedIn) {
+      return <Redirect to="/" />
+    }
 
     return (
       <>
