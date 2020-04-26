@@ -107,8 +107,6 @@ export default class Topic extends React.Component {
    * @param {object} topic
    */
   handleReplyClick(topic) {
-    event.preventDefault();
-
     const accessToken = localStorage.getItem('accessToken');
 
     this.topicApi
@@ -119,9 +117,7 @@ export default class Topic extends React.Component {
         console.log(reponse);
       }, error => {
         console.log(error);
-      })
-
-    alert(`replied to ${topic.id}`)
+      });
   }
 
 
