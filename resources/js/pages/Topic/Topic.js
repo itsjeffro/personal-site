@@ -22,7 +22,8 @@ export default class Topic extends React.Component {
       },
       input: {
         reply: '',
-      }
+      },
+      errors: null,
     };
 
     this.topicApi = new TopicApi(axios);
@@ -114,9 +115,9 @@ export default class Topic extends React.Component {
         body: this.state.input.reply
       })
       .then(response => {
-        console.log(reponse);
+        this.setState({ errors: null });
       }, error => {
-        console.log(error);
+        this.setState({ errors: error.response.data.errors });
       });
   }
 
@@ -130,11 +131,15 @@ export default class Topic extends React.Component {
       replies,
       perPage,
       currentPage,
+      errors,
+      input,
     } = this.state;
 
     let topicCreatedAt = moment.utc(topic.created_at).toDate();
 
     topicCreatedAt = moment(topicCreatedAt).format('DD, MMM YYYY - hh:mm A');
+
+    const hasBodyError = errors && errors.body;
 
     return (
       <>
@@ -193,7 +198,16 @@ export default class Topic extends React.Component {
                 <div>
                   <h5>Reply to conversation</h5>
                   <div className="form-group">
-                    <textarea className="form-control" name="reply" onChange={ e => this.handleInputChange(e) }></textarea>
+                    <textarea 
+                      className={ 'form-control' + (hasBodyError ? ' is-invalid' : '') }
+                      name="reply"
+                      onChange={ e => this.handleInputChange(e) }
+                      value={ input.body }
+                    />
+
+                    <div className="invalid-feedback">
+                      { hasBodyError ? errors.body[0] : '' }
+                    </div>
                   </div>
                   <button className="btn btn-primary" onClick={ e => this.handleReplyClick(topic) }>Post</button>
                 </div>
