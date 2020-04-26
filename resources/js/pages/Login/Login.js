@@ -142,7 +142,7 @@ export default class Login extends React.Component {
                   </div>
 
                   <div className="card-footer">
-                    <a href="">Login via Steam</a>
+                    <a href="/steam/login">Login via Steam</a>
                   </div>
                 </div>
               </div>
