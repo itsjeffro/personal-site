@@ -1,7 +1,12 @@
 import React from 'react';
+import jwt from 'jsonwebtoken';
+import jwksClient from 'jwks-rsa';
 import { Pagination } from '../../components/Pagination';
 import { TopicsTable } from './components/TopicsTable';
+import { TopicForm } from './components/TopicForm';
 import TopicApi from '../../api/TopicApi';
+import AuthService from '../../services/AuthService';
+import { Redirect } from 'react-router-dom';
 
 class Discussion extends React.Component {
   constructor(props) {
@@ -17,9 +22,15 @@ class Discussion extends React.Component {
       input: {
         title: '',
         body: '',
-      }
+      },
+      errors: null,
     };
 
+    const client = jwksClient({
+      jwksUri: '/.well-known/jwks.json',
+    });
+
+    this.auth = new AuthService(localStorage, jwt, client);
     this.topicApi = new TopicApi(axios);
 
     this.handleTopicClick = this.handleTopicClick.bind(this);
@@ -104,9 +115,18 @@ class Discussion extends React.Component {
     this.topicApi
       .createTopic(accessToken, data)
       .then(response => {
-        console.log(response);
+        window.scrollTo(0, 0);
+
+        this.setState({
+          input: {
+            title: '',
+            body: '',
+          }
+        });
+
+        this.loadResults(1);
       }, error => {
-        console.log(error);
+        this.setState({ errors: error.response.data.errors });
       })
   }
 
@@ -114,10 +134,12 @@ class Discussion extends React.Component {
    * Render DOM.
    */
   render() {
-    const { 
+    const {
+      input,
       topics, 
       perPage,
       currentPage,
+      errors,
     } = this.state;
 
     return (
@@ -143,16 +165,12 @@ class Discussion extends React.Component {
                   centerPagination
                 />
 
-                <div>
-                  <h5>New topic</h5>
-                  <div className="form-group">
-                    <input type="text" className="form-control" name="title" onChange={ e => this.handleInputChange(e) } />
-                  </div>
-                  <div className="form-group">
-                    <textarea className="form-control" name="body" onChange={ e => this.handleInputChange(e) }></textarea>
-                  </div>
-                  <button className="btn btn-primary" onClick={ this.handleTopicClick }>Post</button>
-                </div>
+                <TopicForm
+                  input={ input }
+                  errors={ errors }
+                  onInputChange={ e => this.handleInputChange(e) }
+                  onTopicClick={ this.handleTopicClick }
+                />
               </div>
             </div>
           </div>
