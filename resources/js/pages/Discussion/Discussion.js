@@ -121,7 +121,8 @@ class Discussion extends React.Component {
           input: {
             title: '',
             body: '',
-          }
+          },
+          errors: null,
         });
 
         this.loadResults(1);
@@ -144,7 +145,7 @@ class Discussion extends React.Component {
 
     return (
       <>
-        <div className="container">
+        <div className="container"> 
           <div className="content">
             <div className="row justify-content-center">
               <div className="col-lg-10">
