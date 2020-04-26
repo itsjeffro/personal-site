@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
 import AuthService from '../../services/AuthService';
+import Alert from '../../components/Alert';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -19,6 +20,7 @@ export default class Login extends React.Component {
         email: '',
         password: '',
       },
+      errors: null,
     };
 
     const client = jwksClient({
@@ -82,12 +84,16 @@ export default class Login extends React.Component {
 
       this.setState({ isLoggingIn: false, isLoggedIn: true });
     }, error => {
-      this.setState({ isLoggingIn: false });
+      this.setState({ isLoggingIn: false, errors: error.response.data.error });
     });
   }
 
   render() {
-    const { isLoggingIn, isLoggedIn } = this.state;
+    const {
+      errors,
+      isLoggingIn, 
+      isLoggedIn
+    } = this.state;
 
     if (isLoggedIn) {
       return <Redirect to="/" />
@@ -103,25 +109,27 @@ export default class Login extends React.Component {
                   <div className="card-body">
                     <h2>Login</h2>
 
+                    { errors ? <Alert variant="danger">We could not verify your credentials.</Alert> : '' }
+
                     <div className="form-group">
-                      <label htmlFor="exampleInputEmail1">E-mail</label>
+                      <label htmlFor="email">E-mail</label>
                       <input
                         name="email"
                         type="email"
                         className="form-control"
-                        id="exampleInputEmail1"
+                        id="email"
                         aria-describedby="emailHelp"
                         placeholder="E-mail"
                         onChange={e => this.handleInputChange(e)}
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="exampleInputPassword1">Password</label>
+                      <label htmlFor="password">Password</label>
                       <input
                         name="password"
                         type="password" 
                         className="form-control"
-                        id="exampleInputPassword1" 
+                        id="password" 
                         placeholder="Password"
                         onChange={e => this.handleInputChange(e)}
                       />
