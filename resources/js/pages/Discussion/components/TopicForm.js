@@ -26,7 +26,7 @@ export const TopicForm = (props) => {
           value={ input.title }
         />
 
-        <div class="invalid-feedback">
+        <div className="invalid-feedback">
           { hasTitleError ? errors.title[0] : '' }
         </div>
       </div>
@@ -40,7 +40,7 @@ export const TopicForm = (props) => {
           value={ input.body }
         />
 
-        <div class="invalid-feedback">
+        <div className="invalid-feedback">
           { hasBodyError ? errors.body[0] : '' }
         </div>
       </div>
