@@ -15,6 +15,7 @@ import Maps from './pages/Maps';
 import Discussion from './pages/Discussion';
 import Topic from './pages/Topic';
 import Login from './pages/Login/Login';
+import SteamAuth from './pages/SteamAuth';
 
 if (document.getElementById('app')) {
   ReactDOM.render(
@@ -23,11 +24,12 @@ if (document.getElementById('app')) {
         <Navbar />
 
         <Switch>
-          <Route path="/discussions/topics/:topic" component={Topic} />
-          <Route path="/discussions" component={Discussion} />
-          <Route path="/maps" component={Maps} />
-          <Route path="/login" component={Login} />
-          <Route path="/" exact component={Home} />
+          <Route path="/steam/auth" component={ SteamAuth } />
+          <Route path="/discussions/topics/:topic" component={ Topic } />
+          <Route path="/discussions" component={ Discussion } />
+          <Route path="/maps" component={ Maps } />
+          <Route path="/login" component={ Login } />
+          <Route path="/" exact component={ Home } />
         </Switch>
       </>
     </Router>,
