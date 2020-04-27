@@ -9,6 +9,7 @@ use App\Player;
 use App\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use JWTAuth;
 
 class SteamAuthController
 {
@@ -71,7 +72,9 @@ class SteamAuthController
         $steamId64 = $segments[$indexCounts] ?? null;
 
         if (!$steamId64) {
-            throw new InvalidArgumentException('No valid steam id 64 was provided.');
+            return response()->json([
+                'message' => 'A valid Steam ID 64 could not be returned from the login attempt.'
+            ], 401);
         }
 
         $player = $this->player
@@ -88,17 +91,23 @@ class SteamAuthController
             ->where('player_id', $player->id)
             ->first();
 
+        $playerSummaries = $this->steamClient->fetchPlayerSummary([$steamId64]);
+
+        $playerSummary = $playerSummaries->response->players[0] ?? 'STEAM_PLAYER_'.$steamId64;
+
         if (!$user instanceof User) {
-            $playerSummaries = $this->steamClient->fetchPlayerSummary([$steamId64]);
-
-            $playerSummary = $playerSummaries->response->players[0] ?? 'STEAM_PLAYER_'.$steamId64;
-
             $user = new User();
             $user->player_id = $player->id;
             $user->name = $playerSummary->personaname;
             $user->save();
         }
 
-        return redirect('/');
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json([
+            'steam_persona' => $playerSummary->personaname,
+            'access_token' => $token,
+            'token_type' => 'bearer',
+        ]);
     }
 }
