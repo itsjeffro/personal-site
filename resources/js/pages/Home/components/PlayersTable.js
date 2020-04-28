@@ -13,7 +13,7 @@ export const PlayersTable = (props) => {
         <thead>
           <tr>
             <th scope="col"></th>
-            <th scope="col">
+            <th scope="col" className="text-nowrap">
               <a href="#" onClick={ e => handleSortClick(e, 'name') }>Player name</a>
             </th>
             <th scope="col" className="text-center">
@@ -31,7 +31,7 @@ export const PlayersTable = (props) => {
             <th scope="col" className="text-center">
               Headshots
             </th>
-            <th scope="col" className="text-right">
+            <th scope="col" className="text-right text-nowrap">
               <a href="#" onClick={ e => handleSortClick(e, 'updated_at') }>Last updated</a>
             </th>
           </tr>
@@ -63,7 +63,7 @@ export const PlayersTable = (props) => {
                     title={player.player_name + ' avatar'} 
                   />
                 </td>
-                <td>
+                <td className="text-nowrap">
                   {player.player_name}
                 </td>
                 <td className="text-center">
@@ -81,7 +81,7 @@ export const PlayersTable = (props) => {
                 <td className="text-center">
                   { headshots }
                 </td>
-                <td className="text-right">
+                <td className="text-right text-nowrap">
                   <span title={ updatedAtRaw }>{ updatedAt }</span>
                 </td>
               </tr>
