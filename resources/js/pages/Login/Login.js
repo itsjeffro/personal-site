@@ -1,8 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import jwt from 'jsonwebtoken';
-import jwksClient from 'jwks-rsa';
-import AuthService from '../../services/AuthService';
 import Alert from '../../components/Alert';
 
 export default class Login extends React.Component {
@@ -23,12 +20,6 @@ export default class Login extends React.Component {
       errors: null,
     };
 
-    const client = jwksClient({
-      jwksUri: '/.well-known/jwks.json',
-    });
-
-    this.auth = new AuthService(localStorage, jwt, client);
-
     this.handleLoginClick = this.handleLoginClick.bind(this);
   }
 
@@ -36,11 +27,7 @@ export default class Login extends React.Component {
    * Check authenticated user.
    */
   componentDidMount() {
-    this.auth.check(user => {
-      this.setState({ user: user });
-        
-      localStorage.setItem('user', JSON.stringify(user));
-    });
+    //
   }
 
   /**
