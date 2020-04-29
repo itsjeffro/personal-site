@@ -70,7 +70,17 @@ class User extends Authenticatable implements JWTSubject
     {
         return [
             'name' => $this->name,
-            'picture' => '',
+            'picture' => $this->player->avatar,
         ];
+    }
+
+    /**
+     * Player's details associated with the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function player()
+    {
+        return $this->belongsTo(Player::class);
     }
 }
