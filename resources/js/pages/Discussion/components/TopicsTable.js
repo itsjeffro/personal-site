@@ -44,7 +44,7 @@ export const TopicsTable = (props) => {
                 <td width="2%">
                   <img 
                     className="rounded" 
-                    src={ '/images/player_default.jpg' } 
+                    src={ row.author.player ? row.author.player.avatar : '/images/player_default.jpg' } 
                     width="25" 
                     height="25"
                     title={ 'Created by ' + row.author.name }
