@@ -6,4 +6,8 @@
   &.navbar-light {
     box-shadow: 0 0px 4px rgba(0,0,0,.12);
   }
+
+  .dropdown-toggle::after {
+    display: none;
+  }
 }
