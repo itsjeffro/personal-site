@@ -14,7 +14,7 @@ auth.check(user => {
 
 let user = localStorage.getItem('user');
 
-if (typeof user === 'string') {
+if (typeof user === 'string' && user !== "") {
   user = JSON.parse(user);
 }
 
