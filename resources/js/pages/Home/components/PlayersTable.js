@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import Avatar from '../../../components/Avatar';
 
 export const PlayersTable = (props) => {
   const {
@@ -54,13 +55,9 @@ export const PlayersTable = (props) => {
             return (
               <tr key={ player.id }>
                 <td>
-                  <img 
-                    className="rounded" 
-                    src={player.avatar ? player.avatar : '/images/player_default.jpg'} 
-                    width="25" 
-                    height="25"
-                    alt={player.player_name} 
-                    title={player.player_name + ' avatar'} 
+                  <Avatar
+                    name={ player.player_name }
+                    imagePath={ player.avatar }
                   />
                 </td>
                 <td className="text-nowrap">
