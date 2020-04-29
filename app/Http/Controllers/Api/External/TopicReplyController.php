@@ -20,7 +20,7 @@ class TopicReplyController
     public function index(Topic $topic): JsonResponse
     {
         $replies = $this->reply
-            ->with('author')
+            ->with('author', 'author.player')
             ->where('topic_id', $topic->id)
             ->paginate(Reply::DEFAULT_PER_PAGE);
 

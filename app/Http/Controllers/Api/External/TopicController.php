@@ -33,7 +33,7 @@ class TopicController
     public function index(): JsonResponse
     {
         $topics = $this->topic
-            ->with(['author', 'latestReply', 'latestReply.author'])
+            ->with(['author', 'author.player', 'latestReply', 'latestReply.author'])
             ->orderBy('created_at', 'desc')
             ->paginate(Topic::DEFAULT_PER_PAGE);
 
@@ -49,7 +49,7 @@ class TopicController
     public function show(Topic $topic): JsonResponse
     {
         $topic = $this->topic
-            ->with(['author', 'replies'])
+            ->with(['author', 'author.player', 'replies'])
             ->where('id', $topic->id)
             ->first();
 
