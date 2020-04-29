@@ -1,3 +1,5 @@
+import { TokenExpiredError } from "jsonwebtoken";
+
 class AuthService {
   constructor(storage, jwt, jwksClient) {
     this.storage = storage;
@@ -21,8 +23,8 @@ class AuthService {
         callback(user);
       } catch (e) {
         if (e instanceof TokenExpiredError) {
-          localStorage.setItem('user', null);
-          localStorage.setItem('accessToken', null);
+          localStorage.setItem('user', '');
+          localStorage.setItem('accessToken', '');
         }
 
         throw e;
