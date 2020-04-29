@@ -162,6 +162,7 @@ export default class Topic extends React.Component {
 
                 <Reply
                   authorName={ topic.author ? topic.author.name : '' }
+                  authorImage={ topic.author && topic.author.player ? topic.author.player.avatar : '' }
                   createdAt={ topicCreatedAt }
                   createdAtGMT={ topic.created_at + ' GMT' }
                   body={ topic.body }
@@ -180,6 +181,7 @@ export default class Topic extends React.Component {
                     <Reply
                       key={ 'reply_' + reply.id }
                       authorName={ reply.author ? reply.author.name : '' }
+                      authorImage={ reply.author && reply.author.player ? reply.author.player.avatar : '' }
                       createdAt={ replyCreatedAt }
                       createdAtGMT={ reply.created_at + ' GMT' }
                       body={ reply.body }
