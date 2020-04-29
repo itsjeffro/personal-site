@@ -9,7 +9,12 @@ require('./bootstrap');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Navbar } from './components/Navbar';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+
+import rootReducers from './state/rootReducers';
+import NavbarContainer from './container/NavbarContainer/NavbarContainer';
+
 import Home from './pages/Home';
 import Maps from './pages/Maps';
 import Discussion from './pages/Discussion';
@@ -18,21 +23,27 @@ import Login from './pages/Login/Login';
 import SteamAuth from './pages/SteamAuth';
 
 if (document.getElementById('app')) {
-  ReactDOM.render(
-    <Router>
-      <>
-        <Navbar />
+  const store = createStore(
+    rootReducers,
+  );
 
-        <Switch>
-          <Route path="/steam/auth" component={ SteamAuth } />
-          <Route path="/discussions/topics/:topic" component={ Topic } />
-          <Route path="/discussions" component={ Discussion } />
-          <Route path="/maps" component={ Maps } />
-          <Route path="/login" component={ Login } />
-          <Route path="/" exact component={ Home } />
-        </Switch>
-      </>
-    </Router>,
+  ReactDOM.render(
+    <Provider store={store}>
+      <Router>
+        <>
+          <NavbarContainer />
+
+          <Switch>
+            <Route path="/steam/auth" component={ SteamAuth } />
+            <Route path="/discussions/topics/:topic" component={ Topic } />
+            <Route path="/discussions" component={ Discussion } />
+            <Route path="/maps" component={ Maps } />
+            <Route path="/login" component={ Login } />
+            <Route path="/" exact component={ Home } />
+          </Switch>
+        </>
+      </Router>
+    </Provider>,
     document.getElementById('app')
   );
 }
