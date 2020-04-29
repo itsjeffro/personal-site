@@ -10,7 +10,7 @@ export const PlayersTable = (props) => {
 
   return (
     <div className="table-responsive">
-      <table className="table">
+      <table className="table table-striped">
         <thead>
           <tr>
             <th scope="col"></th>
