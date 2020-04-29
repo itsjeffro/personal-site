@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Internal;
 
-use App\Game\AdminPermission;
+use App\Game\Amx\AdminPermission;
 use App\Player;
 use Illuminate\Http\Request;
 use App\Http\Resources\Admin as AdminResource;
