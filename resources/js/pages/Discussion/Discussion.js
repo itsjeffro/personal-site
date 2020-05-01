@@ -1,12 +1,13 @@
 import React from 'react';
 import jwt from 'jsonwebtoken';
 import jwksClient from 'jwks-rsa';
+import { connect } from 'react-redux';
+
 import { Pagination } from '../../components/Pagination';
 import { TopicsTable } from './components/TopicsTable';
 import { TopicForm } from './components/TopicForm';
 import TopicApi from '../../api/TopicApi';
 import AuthService from '../../services/AuthService';
-import { Redirect } from 'react-router-dom';
 
 class Discussion extends React.Component {
   constructor(props) {
@@ -32,9 +33,6 @@ class Discussion extends React.Component {
 
     this.auth = new AuthService(localStorage, jwt, client);
     this.topicApi = new TopicApi(axios);
-
-    this.handleTopicClick = this.handleTopicClick.bind(this);
-    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   /**
@@ -47,7 +45,7 @@ class Discussion extends React.Component {
   /**
    * Load results.
    */
-  loadResults(page) {
+  loadResults = (page) => {
     let queries = [
       {'name': 'per_page', 'value': this.state.perPage},
       {'name': 'page', 'value': page},
@@ -79,7 +77,7 @@ class Discussion extends React.Component {
    *
    * @param {*} e
    */
-  handleInputChange(e) {
+  handleInputChange = (e) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -97,7 +95,7 @@ class Discussion extends React.Component {
    * @param {object} event
    * @param {string} page
    */
-  handlePageClick(event, page) {
+  handlePageClick = (event, page) => {
     event.preventDefault();
 
     window.scrollTo(0, 0);
@@ -108,7 +106,7 @@ class Discussion extends React.Component {
   /**
    * Creates new topic.
    */
-  handleTopicClick() {
+  handleTopicClick = () => {
     const data = this.state.input;
     const accessToken = localStorage.getItem('accessToken');
   
@@ -135,6 +133,8 @@ class Discussion extends React.Component {
    * Render DOM.
    */
   render() {
+    const { auth } = this.props;
+  
     const {
       input,
       topics, 
@@ -166,12 +166,13 @@ class Discussion extends React.Component {
                   centerPagination
                 />
 
-                <TopicForm
-                  input={ input }
-                  errors={ errors }
-                  onInputChange={ e => this.handleInputChange(e) }
-                  onTopicClick={ this.handleTopicClick }
-                />
+                { auth.isLoggedIn ?
+                  <TopicForm
+                    input={ input }
+                    errors={ errors }
+                    onInputChange={ e => this.handleInputChange(e) }
+                    onTopicClick={ this.handleTopicClick }
+                  /> : '' }
               </div>
             </div>
           </div>
@@ -181,4 +182,8 @@ class Discussion extends React.Component {
   }
 }
 
-export default Discussion;
+const mapStateToProps = (state) => {
+  return { auth: state.auth };
+}
+
+export default connect(mapStateToProps)(Discussion);

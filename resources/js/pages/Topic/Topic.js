@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import moment from 'moment';
-import { Pagination } from '../../components/Pagination';
-import TopicApi from '../../api/TopicApi';
-import { Reply } from './components/Reply';
 
-export default class Topic extends React.Component {
+import { Pagination } from '../../components/Pagination';
+import { Reply } from './components/Reply';
+import TopicApi from '../../api/TopicApi';
+import ReplyForm from './components/ReplyForm';
+
+class Topic extends React.Component {
   constructor(props) {
     super(props);
     
@@ -21,14 +24,12 @@ export default class Topic extends React.Component {
         total: 0,
       },
       input: {
-        reply: '',
+        body: '',
       },
       errors: null,
     };
 
     this.topicApi = new TopicApi(axios);
-
-    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   /**
@@ -41,7 +42,7 @@ export default class Topic extends React.Component {
   /**
    * Load results.
    */
-  loadResults(page) {
+  loadResults = (page) => {
     const { topic } = this.props.match.params;
 
     let queries = [
@@ -77,7 +78,7 @@ export default class Topic extends React.Component {
    * @param {object} event
    * @param {string} page
    */
-  handlePageClick(event, page) {
+  handlePageClick = (event, page) => {
     event.preventDefault();
 
     window.scrollTo(0, 0);
@@ -90,7 +91,7 @@ export default class Topic extends React.Component {
    *
    * @param {*} e
    */
-  handleInputChange(e) {
+  handleInputChange = (e) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
@@ -107,15 +108,22 @@ export default class Topic extends React.Component {
    * 
    * @param {object} topic
    */
-  handleReplyClick(topic) {
+  handleReplyClick = (topic) => {
     const accessToken = localStorage.getItem('accessToken');
 
     this.topicApi
       .createTopicReply(accessToken, topic.id, {
-        body: this.state.input.reply
+        body: this.state.input.body
       })
-      .then(response => {
-        this.setState({ errors: null });
+      .then((response) => {
+        this.loadResults(1);
+        
+        this.setState({ 
+          errors: null, 
+          input: {
+            body: ''
+          } 
+        });
       }, error => {
         this.setState({ errors: error.response.data.errors });
       });
@@ -126,6 +134,8 @@ export default class Topic extends React.Component {
    * Render DOM.
    */
   render() {
+    const { auth } = this.props;
+  
     const { 
       topic,
       replies,
@@ -138,8 +148,6 @@ export default class Topic extends React.Component {
     let topicCreatedAt = moment.utc(topic.created_at).toDate();
 
     topicCreatedAt = moment(topicCreatedAt).format('DD, MMM YYYY - hh:mm A');
-
-    const hasBodyError = errors && errors.body;
 
     return (
       <>
@@ -172,7 +180,7 @@ export default class Topic extends React.Component {
 
                 { replies.data.length === 0 ? 'Be the first to reply' : '' }
 
-                {replies.data.map(reply => {
+                {replies.data.map((reply) => {
                   let replyCreatedAt = moment.utc(reply.created_at).toDate();
 
                   replyCreatedAt = moment(replyCreatedAt).format('DD, MMM YYYY - hh:mm A');
@@ -197,22 +205,14 @@ export default class Topic extends React.Component {
                   centerPagination
                 />
 
-                <div>
-                  <h5>Reply to conversation</h5>
-                  <div className="form-group">
-                    <textarea 
-                      className={ 'form-control' + (hasBodyError ? ' is-invalid' : '') }
-                      name="reply"
-                      onChange={ e => this.handleInputChange(e) }
-                      value={ input.body }
-                    />
-
-                    <div className="invalid-feedback">
-                      { hasBodyError ? errors.body[0] : '' }
-                    </div>
-                  </div>
-                  <button className="btn btn-primary" onClick={ e => this.handleReplyClick(topic) }>Post</button>
-                </div>
+                { auth.isLoggedIn ?
+                  <ReplyForm
+                    errors={ errors }
+                    input={ input }
+                    onInputChange={ this.handleInputChange }
+                    onReplyClick={ this.handleReplyClick}
+                    topic={ topic }
+                  /> : '' }
               </div>
             </div>
           </div>
@@ -221,3 +221,9 @@ export default class Topic extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return { auth: state.auth };
+};
+
+export default connect(mapStateToProps)(Topic);
