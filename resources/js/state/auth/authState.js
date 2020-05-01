@@ -13,14 +13,16 @@ auth.check(user => {
 });
 
 let user = localStorage.getItem('user');
+let isLoggedIn = false;
 
 if (typeof user === 'string' && user !== "") {
   user = JSON.parse(user);
+  isLoggedIn = true;
 }
 
 const authState = {
   isLoggingIn: false,
-  isLoggedIn: false,
+  isLoggedIn: isLoggedIn,
   user: user,
 };
 
